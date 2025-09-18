@@ -56,13 +56,19 @@ class ProdukBaruPromosiController extends Controller
             // Buat nama random + extension
             $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
 
-            // Pindahkan ke folder public/upload/produk
-            $destination = base_path('../public_html/upload/produkbarupromosi');
+            // Pindahkan ke folder public/upload/produkbarupromosi
+            $destination = public_path('upload/produkbarupromosi');
+            
+            // Buat folder jika belum ada
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+            
             $file->move($destination, $fileName);
 
             // Hapus file lama jika ada
-            if ($produkbaruPromosi->image && file_exists($destination . $produkbaruPromosi->image)) {
-                @unlink($destination . $produkbaruPromosi->image);
+            if ($produkbaruPromosi->image && file_exists($destination . '/' . $produkbaruPromosi->image)) {
+                @unlink($destination . '/' . $produkbaruPromosi->image);
             }
         }
 

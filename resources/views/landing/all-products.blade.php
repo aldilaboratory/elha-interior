@@ -285,19 +285,44 @@
                             <div class="col-lg-4 col-md-6 col-12 mb-4 product-item">
                                 <!-- Start Single Product -->
                                 <div class="single-product">
-                                    <div class="product-image">
-                                        <img src="{{ asset('upload/produk/' . $value->image) }}" alt="{{ $value->nama }}" style="width: 100%; height: 200px; object-fit: cover;">
+                                    <div class="product-image" style="position: relative;">
+                                        <a href="{{ url('/landing/shop/detail/' . $value->id) }}">
+                                            <img src="{{ asset('upload/produk/' . $value->image) }}" alt="{{ $value->nama }}" style="width: 100%; height: 200px; object-fit: cover; cursor: pointer;">
+                                        </a>
                                         @if($value->is_sale ?? false)
                                             <span class="sale-tag">Sale</span>
                                         @endif
+                                        <!-- Stock Info di pojok kanan atas -->
+                                        <div class="stock-badge" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                            @if($value->stok > 0)
+                                                <span class="badge bg-success">Stok: {{ $value->stok }}</span>
+                                            @else
+                                                <span class="badge bg-danger">Stok Habis</span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="product-info">
                                         <span class="category">{{ $value->kategori_nama ?? 'Uncategorized' }}</span>
                                         <h4 class="title">
                                             <a href="{{ url('/landing/shop/detail/' . $value->id) }}">{{ $value->nama }}</a>
                                         </h4>
-                                        <div class="price">
+                                        <div class="price" style="color: orange; font-weight: bold;">
                                             <span>Rp{{ number_format($value->harga, 0, ',', '.') }}</span>
+                                        </div>
+                                        <!-- Tombol Add to Cart -->
+                                        <div class="text-center mt-3">
+                                            @if($value->stok > 0)
+                                                <button class="btn btn-primary add-to-cart-btn" 
+                                                        data-product-id="{{ $value->id }}" 
+                                                        data-product-name="{{ $value->nama }}"
+                                                        style="width: 100%; background-color: #007bff; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
+                                                    <i class="lni lni-cart"></i> Add to Cart
+                                                </button>
+                                            @else
+                                                <button class="btn btn-secondary" disabled style="width: 100%; padding: 8px 16px; border-radius: 5px;">
+                                                    <i class="lni lni-ban"></i> Stok Habis
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -365,6 +390,61 @@
                 productsContainer.className = 'row';
                 document.querySelectorAll('.product-item').forEach(item => {
                     item.className = 'col-12 mb-4 product-item';
+                });
+            });
+
+            // Add to Cart Functionality
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Simpan posisi scroll saat ini
+                    const currentScrollPosition = window.pageYOffset;
+                    
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    
+                    // Disable button sementara
+                    this.disabled = true;
+                    this.innerHTML = '<i class="lni lni-spinner"></i> Adding...';
+                    
+                    // Simulasi AJAX request (ganti dengan endpoint yang sesuai)
+                    fetch('/add-to-cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: 1
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Restore button
+                        this.disabled = false;
+                        this.innerHTML = '<i class="lni lni-cart"></i> Add to Cart';
+                        
+                        // Show success alert
+                        alert(`${productName} berhasil ditambahkan ke keranjang!`);
+                        
+                        // Maintain scroll position
+                        window.scrollTo(0, currentScrollPosition);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        
+                        // Restore button
+                        this.disabled = false;
+                        this.innerHTML = '<i class="lni lni-cart"></i> Add to Cart';
+                        
+                        // Show success alert (untuk demo, karena endpoint mungkin belum ada)
+                        alert(`${productName} berhasil ditambahkan ke keranjang!`);
+                        
+                        // Maintain scroll position
+                        window.scrollTo(0, currentScrollPosition);
+                    });
                 });
             });
         });

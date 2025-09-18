@@ -22,6 +22,7 @@ class InfoPromosi extends Model
     protected $fillable = [
         "nama",
         "deskripsi",
+        "image",
         "created_at",
         "updated_at",
     ];

@@ -1,0 +1,167 @@
+/* ELHA INTERIOR Custom Styles */
+
+/* Header styling to match the orange/yellow theme */
+.header {
+    background: linear-gradient(135deg, #ff8c00, #ffa500) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header .header-middle {
+    padding: 15px 0 !important;
+    border-bottom: none !important;
+}
+
+.btn-primary {
+    background-color: orange;
+}
+
+/* Logo styling */
+.navbar-brand span {
+    color: #fff !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    font-weight: 700 !important;
+}
+
+/* Category menu styling */
+.mega-category-menu {
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    padding: 10px 15px !important;
+    border-right: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+.mega-category-menu .cat-button {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.mega-category-menu .cat-button i {
+    color: #fff !important;
+}
+
+/* Navigation menu styling */
+.navbar-nav .nav-item a {
+    color: #fff !important;
+    font-weight: 500;
+    padding: 10px 20px !important;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-item a:hover,
+.navbar-nav .nav-item a.active {
+    background: rgba(255,255,255,0.2) !important;
+    color: #fff !important;
+}
+
+/* Search bar styling */
+.main-menu-search .search-input input {
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    border-radius: 25px !important;
+    padding: 10px 20px !important;
+    background: rgba(255,255,255,0.9) !important;
+}
+
+.main-menu-search .search-btn button {
+    background: #fff !important;
+    color: #ff8c00 !important;
+    border-radius: 50% !important;
+    width: 45px;
+    height: 45px;
+    border: none !important;
+    margin-left: -50px !important;
+    z-index: 10;
+    position: relative;
+}
+
+.main-menu-search .search-btn button:hover {
+    background: #f0f0f0 !important;
+    color: #ff6600 !important;
+}
+
+/* Contact and cart styling */
+.nav-hotline {
+    color: #fff !important;
+}
+
+.nav-hotline i {
+    color: #fff !important;
+}
+
+.nav-hotline h3 {
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+.nav-hotline h3 span {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.navbar-cart .main-btn {
+    background: rgba(255,255,255,0.2) !important;
+    color: #fff !important;
+    border: 2px solid rgba(255,255,255,0.3) !important;
+}
+
+.navbar-cart .main-btn:hover {
+    background: rgba(255,255,255,0.3) !important;
+    color: #fff !important;
+}
+
+.navbar-cart .main-btn .total-items {
+    background: #fff !important;
+    color: #ff8c00 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .header .header-middle {
+        padding: 10px 0 !important;
+    }
+    
+    .mega-category-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .navbar-brand span {
+        font-size: 1.2rem !important;
+    }
+    
+    .nav-hotline {
+        display: none !important;
+    }
+}
+
+/* Category dropdown styling */
+.mega-category-menu .sub-category {
+    background: #fff !important;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.mega-category-menu .sub-category li a {
+    color: #333 !important;
+    padding: 12px 20px !important;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mega-category-menu .sub-category li a:hover {
+    background: #ff8c00 !important;
+    color: #fff !important;
+}
+
+/* Header top contact info styling */
+.header .topbar {
+    /* background: #333 !important; */
+    padding: 8px 0 !important;
+}
+
+/* Mobile menu styling */
+/* .navbar-collapse {
+    background: rgba(255,140,0,0.95) !important;
+    border-radius: 10px;
+    margin-top: 10px;
+} */

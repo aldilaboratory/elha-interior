@@ -19,6 +19,37 @@
         <form action="{{ route('infopromosi.update', $infoPromosi->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
+            <!-- Upload Gambar Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Gambar Info Promosi</label>
+                    <div class="text-center">
+                        <div class="image-upload-container position-relative d-inline-block">
+                            <img id="preview-image"
+                                src="{{ $infoPromosi->image ? asset('upload/infopromosi/' . $infoPromosi->image) : asset('assets/images/placeholder.jpg') }}"
+                                alt="Preview Gambar"
+                                class="img-thumbnail border-2 border-dashed border-primary"
+                                style="width: 200px; height: 200px; object-fit: cover; cursor: pointer; transition: all 0.3s ease;">
+                            @if(!$infoPromosi->image)
+                            <div class="image-overlay position-absolute top-50 start-50 translate-middle" style="pointer-events: none;">
+                                <i class="fas fa-camera text-primary" style="font-size: 2rem; opacity: 0.7;"></i>
+                            </div>
+                            @endif
+                            <input type="file" name="image" id="image" class="d-none" accept="image/*">
+                        </div>
+                        <p class="text-muted mt-2 mb-0">
+                            <small><i class="fas fa-info-circle me-1"></i>Klik gambar untuk upload foto info promosi</small>
+                        </p>
+                    </div>
+                    @error('image')
+                    <div class="text-danger mt-1">
+                        <small><i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}</small>
+                    </div>
+                    @enderror
+                </div>
+            </div>
+
             <!-- Form Fields -->
             <div class="row g-4">
                 <!-- Nama Produk -->
@@ -97,7 +128,14 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const previewImage = document.getElementById('preview-image');
+                const overlay = document.querySelector('.image-overlay');
+                
                 previewImage.src = e.target.result;
+
+                // Hide overlay when image is loaded
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
 
                 // Add animation effect
                 previewImage.style.opacity = '0';

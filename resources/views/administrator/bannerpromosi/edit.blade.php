@@ -32,9 +32,11 @@
                                 alt="Preview Gambar"
                                 class="img-thumbnail border-2 border-dashed border-primary"
                                 style="width: 200px; height: 200px; object-fit: cover; cursor: pointer; transition: all 0.3s ease;">
-                            <div class="image-overlay position-absolute top-50 start-50 translate-middle">
+                            @if(!$bannerPromosi->image)
+                            <div class="image-overlay position-absolute top-50 start-50 translate-middle" style="pointer-events: none;">
                                 <i class="fas fa-camera text-primary" style="font-size: 2rem; opacity: 0.7;"></i>
                             </div>
+                            @endif
                             <input type="file" name="image" id="image" class="d-none" accept="image/*">
                         </div>
                         <p class="text-muted mt-2 mb-0">
@@ -107,12 +109,17 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    // Image upload functionality
-    document.getElementById('preview-image').addEventListener('click', function() {
-        document.getElementById('image').click();
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image upload functionality
+        const previewImage = document.getElementById('preview-image');
+        const imageInput = document.getElementById('image');
+        
+        if (previewImage && imageInput) {
+            previewImage.addEventListener('click', function() {
+                imageInput.click();
+            });
 
-    document.getElementById('image').addEventListener('change', function(event) {
+            imageInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
             // Validate file type
@@ -130,7 +137,13 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 const previewImage = document.getElementById('preview-image');
+                const overlay = document.querySelector('.image-overlay');
                 previewImage.src = e.target.result;
+
+                // Hide overlay when image is loaded
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
 
                 // Add animation effect
                 previewImage.style.opacity = '0';
@@ -140,17 +153,21 @@
             }
             reader.readAsDataURL(file);
         }
-    });
+            });
+        }
 
-
-    // Auto-format price input
-    document.getElementById('harga').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value) {
-            // Add thousand separators (optional)
-            value = parseInt(value).toLocaleString('id-ID');
-            // Remove formatting for form submission
-            e.target.dataset.rawValue = e.target.value.replace(/\D/g, '');
+        // Auto-format price input
+        const hargaInput = document.getElementById('harga');
+        if (hargaInput) {
+            hargaInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value) {
+                    // Add thousand separators (optional)
+                    value = parseInt(value).toLocaleString('id-ID');
+                    // Remove formatting for form submission
+                    e.target.dataset.rawValue = e.target.value.replace(/\D/g, '');
+                }
+            });
         }
     });
 </script>

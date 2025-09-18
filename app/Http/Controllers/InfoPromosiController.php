@@ -37,6 +37,7 @@ class InfoPromosiController extends Controller
         $validator = Validator::make($request->all(), [
             "nama"        => "required",
             "deskripsi"   => "required",
+            "image"       => "nullable|image|mimes:jpg,jpeg,png", // Boleh kosong saat update
         ]);
 
         if ($validator->fails()) {
@@ -45,10 +46,35 @@ class InfoPromosiController extends Controller
                 ->withInput();
         }
 
+        // Upload file jika ada
+        $fileName = $infoPromosi->image; // default: pakai gambar lama
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            // Buat nama random + extension
+            $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+
+            // Pindahkan ke folder public/upload/infopromosi
+            $destination = public_path('upload/infopromosi');
+            
+            // Buat folder jika belum ada
+            if (!is_dir($destination)) {
+                mkdir($destination, 0755, true);
+            }
+            
+            $file->move($destination, $fileName);
+
+            // Hapus file lama jika ada
+            if ($infoPromosi->image && file_exists($destination . '/' . $infoPromosi->image)) {
+                @unlink($destination . '/' . $infoPromosi->image);
+            }
+        }
+
         // Data yang akan disimpan
         $dataSave = [
             "nama"        => $request->input("nama"),
             "deskripsi"   => $request->input("deskripsi"),
+            "image"       => $fileName,
         ];
 
         try {

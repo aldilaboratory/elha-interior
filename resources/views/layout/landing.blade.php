@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>DAWAN PETSHOP</title>
+    <title>ELHA INTERIOR</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,6 +17,7 @@
     <link href="{{ asset('assets_landing/css/tiny-slider.css') }}" rel="stylesheet">
     <link href="{{ asset('assets_landing/css/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets_landing/css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/elha-custom.css') }}" rel="stylesheet">
 
     @yield('css')
 
@@ -92,192 +93,158 @@
       </p>
     <![endif]-->
 
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="preloader-inner">
-            <div class="preloader-icon">
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
-    <!-- /End Preloader -->
+
 
     <!-- Start Header Area -->
-    <header class="header navbar-area">
-        <!-- Start Topbar -->
-        <!-- End Topbar -->
-        <!-- Start Header Middle -->
-        <div class="header-middle">
+    <header class="header shop">
+        <!-- Topbar -->
+        <div class="topbar">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-3 col-7">
-                        <!-- Start Header Logo -->
-                        <a class="navbar-brand w-50 d-flex align-items-center" href="{{ route('shop') }}">
-                            <span class="fw-bold text-primary" style="font-size: 1.5rem;">Dawan Pet Shop</span>
-                        </a>
-                        <!-- End Header Logo -->
-                    </div>
-                    <div class="col-lg-5 col-md-7 d-xs-none">
-                        <!-- Start Main Menu Search -->
-                        <form action="{{ route('landing.products') }}" method="GET">
-                            <div class="main-menu-search">
-                                <!-- navbar search start -->
-                                <div class="navbar-search search-style-5">
-                                    <div class="search-input">
-                                        <input type="text" placeholder="Search" name="search">
-                                    </div>
-                                    <div class="search-btn">
-                                        <button type="submit"><i class="lni lni-search-alt"></i></button>
-                                    </div>
-                                    <!-- navbar search Ends -->
-                                </div>
-                            </div>
-                        </form>
-                        <!-- End Main Menu Search -->
-                    </div>
-                    <div class="col-lg-4 col-md-2 col-5">
-                        <div class="middle-right-area">
-                            <div class="nav-hotline">
-                                <i class="lni lni-phone"></i>
-                                <h3>Contact Us:
-                                    <span>(+62) 851-6144-2346</span>
-                                </h3>
-                            </div>
-
-                            <div class="navbar-cart">
-                                <div class="cart-items">
-                                    <a href="{{ url('/landing/alamat') }}" class="main-btn">
-                                        <i class="lni lni-user"></i>
-                                    </a>
-                                </div>
-                            </div>
-
-                            @php
-                            use App\Models\Keranjang;
-
-                            $cartCount = 0;
-                            if (Auth::check()) {
-                            $cartCount = Keranjang::where('user_id', Auth::id())->sum('jumlah');
-                            }
-                            @endphp
-
-                            <div class="navbar-cart">
-                                <div class="cart-items">
-                                    <a href="{{ route('landing.cart') }}" class="main-btn">
-                                        <i class="lni lni-cart"></i>
-                                        <span class="total-items">{{ $cartCount }}</span>
-                                    </a>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Header Middle -->
-        <!-- Start Header Bottom -->
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-md-6 col-12">
-                    <div class="nav-inner">
-                        <!-- Start Mega Category Menu -->
-                        <div class="mega-category-menu">
-                            <span class="cat-button"><i class="lni lni-menu"></i>All Categories</span>
-                            @php
-                            use App\Models\Kategori;
-                            $kategoris = Kategori::all();
-                            @endphp
-                            <ul class="sub-category">
-                                @foreach($kategoris as $kategori)
-                                <li>
-                                    <a href="{{ route('shop', ['category' => $kategori->id]) }}">
-                                        {{ $kategori->nama }}
-                                    </a>
-                                </li>
-                                @endforeach
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-12">
+                        <!-- Top Left -->
+                        <div class="top-left">
+                            <ul class="list-main">
+                                <li><i class="ti-headphone-alt"></i> +62 893 664 678</li>
+                                <li><i class="ti-email"></i> support@elhainterior.com</li>
                             </ul>
                         </div>
-
-                        <!-- End Mega Category Menu -->
-                        <!-- Start Navbar -->
-                        <nav class="navbar navbar-expand-lg">
-                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="toggler-icon"></span>
-                                <span class="toggler-icon"></span>
-                                <span class="toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
-    <ul id="nav" class="navbar-nav ms-auto">
-        <li class="nav-item">
-            <a href="{{ route('shop') }}"
-               class="{{ request()->routeIs('shop') ? 'active' : '' }}"
-               aria-label="Toggle navigation">
-               Home
-            </a>
-        </li>
-
-        @auth
-        <li class="nav-item">
-            <a href="{{ route('landing.pesanan') }}"
-               class="{{ request()->routeIs('landing.pesanan') ? 'active' : '' }}">
-               Pesanan Saya
-            </a>
-        </li>
-        @endauth
-
-        <li class="nav-item">
-            <a href="{{ route('landing.products') }}"
-               class="{{ request()->routeIs('landing.products') ? 'active' : '' }}">
-               All Product
-            </a>
-        </li>
-
-        @guest
-        <li class="nav-item">
-            <a href="{{ route('landing.login') }}"
-               class="{{ request()->routeIs('landing.login') ? 'active' : '' }}">
-               Sign In
-            </a>
-        </li>
-        @else
-        <li class="nav-item">
-            <a href="{{ route('landing.logout') }}"
-               class="{{ request()->routeIs('landing.logout') ? 'active' : '' }}">
-               Logout
-            </a>
-        </li>
-        @endguest
-    </ul>
-</div>
-                        </nav>
-                        <!-- End Navbar -->
+                        <!--/ End Top Left -->
+                    </div>
+                    <div class="col-lg-8 col-md-12 col-12">
+                        <!-- Top Right -->
+                        <div class="right-content">
+                            <ul class="list-main">
+                                <li><a href="https://maps.app.goo.gl/T6VH6xM3qneNVyR27"><i class="ti-location-pin"></i> Lokasi toko</a></li>
+                                <li><i class="ti-user"></i> <a href="{{ route('profile.edit') }}"> Akun saya</a></li>
+                                @if (Auth::check())
+                                    {{-- User sudah login, maka tampil tombol logout --}}
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}" class="text-danger d-inline">
+                                        @csrf
+                                            <button type="submit" class="dropdown-item">
+                                            <i class="ti-power-off text-danger"></i>{{ __('Keluar') }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    {{-- User belum login, maka tampil tombol login --}}
+                                    <li><i class="ti-power-off"></i><a href="{{ route('login') }}"> Login</a></li>
+                                @endif
+                            </ul>
+                        </div>
+                        <!-- End Top Right -->
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-12">
-                    <div class="top-end">
-                        <div class="user">
-                            @auth
-                            <span class="user-profile-link" style="pointer-events: none; cursor: default; text-decoration: none;">
-                                <i class="lni lni-user"></i>
-                                Hello, {{ Auth::user()->name }}
-                            </span>
-                            @else
-                            <a href="{{ route('landing.login') }}" class="user-profile-link">
-                                <i class="lni lni-user"></i>
-                                Hello, Guest
-                            </a>
-                            @endauth
+            </div>
+        </div>
+        <!-- End Topbar -->
+        <div class="middle-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="{{ route('landing.index') }}"><img src="{{ asset('assets/images/logo-elha.svg') }}" alt="logo"></a>
+                        </div>
+                        <!--/ End Logo -->
+                        <!-- Search Form -->
+                        <div class="search-top">
+                            <div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
+                            <!-- Search Form -->
+                            <div class="search-top">
+                                <form class="search-form">
+                                    <input type="text" placeholder="Search here..." name="search">
+                                    <button value="search" type="submit"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                            <!--/ End Search Form -->
+                        </div>
+                        <!--/ End Search Form -->
+                        <div class="mobile-nav"></div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 col-12">
+                        <div class="search-bar-top">
+                            <div class="search-bar">
+                                <form action="{{ route('landing.products') }}" method="GET">
+                                    <input name="search" placeholder="Cari produk di sini..." type="search">
+                                    <button class="btnn"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-12">
+                        <div class="right-bar">
+                            <!-- Search Form -->
+                            <div class="sinlge-bar">
+                                <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                            </div>
+                            @php
+                            use App\Models\Keranjang;
+                            $cartCount = 0;
+                            if (Auth::check()) {
+                                $cartCount = Keranjang::where('user_id', Auth::id())->sum('jumlah');
+                            }
+                            @endphp
+                            <div class="sinlge-bar shopping">
+                                <a href="{{ route('landing.cart') }}" class="single-icon"><i class="ti-bag"></i> <span class="total-count">{{ $cartCount }}</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Header Bottom -->
+        <!-- Header Inner -->
+        <div class="header-inner">
+            <div class="container">
+                <div class="cat-nav-head">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            @if (Route::is('landing.index'))
+                            <div class="all-category">
+                                <h3 class="cat-heading"><i class="fa fa-bars" aria-hidden="true"></i>KATEGORI</h3>
+                                @php
+                                $kategoris = \App\Models\Kategori::all();
+                                @endphp
+                                <ul class="main-category">
+                                    <li><a href="{{ route('shop') }}">Ruang Seputar Thailand</a></li>
+                                    <li><a href="{{ route('shop') }}">Peralatan Dapur</a></li>
+                                    <li><a href="{{ route('shop') }}">Perlengkapan Kamar Mandi</a></li>
+                                    @foreach($kategoris as $kategori)
+                                    <li>
+                                        <a href="{{ route('shop', ['category' => $kategori->id]) }}">
+                                            {{ $kategori->nama }}
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+                        </div>
+                        <div class="col-lg-9 col-12">
+                            <div class="menu-area">
+                                <!-- Main Menu -->
+                                <nav class="navbar navbar-expand-lg">
+                                    <div class="navbar-collapse">
+                                        <div class="nav-inner">
+                                            <ul class="nav main-menu menu navbar-nav">
+                                                <li class="active"><a href="{{ route('landing.index') }}">Beranda</a></li>
+                                                @auth
+                                                <li><a href="{{ route('landing.pesanan') }}">Pesanan Saya</a></li>
+                                                @endauth
+                                                <li><a href="{{ route('landing.products') }}">Produk</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </nav>
+                                <!--/ End Main Menu -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Header Inner -->
     </header>
     <!-- End Header Area -->
 
