@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1400" height="1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .table-box { fill: #f8f9fa; stroke: #343a40; stroke-width: 2; }
+      .table-header { fill: #007bff; }
+      .table-title { fill: white; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; }
+      .field-text { fill: #343a40; font-family: Arial, sans-serif; font-size: 11px; }
+      .pk-field { fill: #dc3545; font-weight: bold; }
+      .fk-field { fill: #28a745; }
+      .relationship-line { stroke: #6c757d; stroke-width: 2; fill: none; }
+      .relationship-text { fill: #495057; font-family: Arial, sans-serif; font-size: 10px; }
+    </style>
+  </defs>
+  
+  <!-- Title -->
+  <text x="700" y="30" text-anchor="middle" style="font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #343a40;">
+    ERD - DawanPetshop Database
+  </text>
+  
+  <!-- User Table -->
+  <g id="user-table">
+    <rect x="50" y="80" width="200" height="280" class="table-box"/>
+    <rect x="50" y="80" width="200" height="30" class="table-header"/>
+    <text x="150" y="100" text-anchor="middle" class="table-title">USER</text>
+    <text x="60" y="120" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="60" y="135" class="field-text">name</text>
+    <text x="60" y="150" class="field-text">username</text>
+    <text x="60" y="165" class="field-text">email</text>
+    <text x="60" y="180" class="field-text">phone</text>
+    <text x="60" y="195" class="field-text">password</text>
+    <text x="60" y="210" class="field-text fk-field">🔗 group_id (FK)</text>
+    <text x="60" y="225" class="field-text fk-field">🔗 provinsi_id (FK)</text>
+    <text x="60" y="240" class="field-text fk-field">🔗 kab_kot_id (FK)</text>
+    <text x="60" y="255" class="field-text fk-field">🔗 kecamatan_id (FK)</text>
+    <text x="60" y="270" class="field-text fk-field">🔗 desa_id (FK)</text>
+    <text x="60" y="285" class="field-text">alamat</text>
+    <text x="60" y="300" class="field-text">created_at</text>
+    <text x="60" y="315" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Group Table -->
+  <g id="group-table">
+    <rect x="320" y="80" width="150" height="120" class="table-box"/>
+    <rect x="320" y="80" width="150" height="30" class="table-header"/>
+    <text x="395" y="100" text-anchor="middle" class="table-title">GROUP</text>
+    <text x="330" y="120" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="330" y="135" class="field-text">nama</text>
+    <text x="330" y="150" class="field-text">created_at</text>
+    <text x="330" y="165" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Produk Table -->
+  <g id="produk-table">
+    <rect x="550" y="80" width="180" height="200" class="table-box"/>
+    <rect x="550" y="80" width="180" height="30" class="table-header"/>
+    <text x="640" y="100" text-anchor="middle" class="table-title">PRODUK</text>
+    <text x="560" y="120" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="560" y="135" class="field-text">nama</text>
+    <text x="560" y="150" class="field-text">deskripsi</text>
+    <text x="560" y="165" class="field-text">image</text>
+    <text x="560" y="180" class="field-text">harga</text>
+    <text x="560" y="195" class="field-text">berat</text>
+    <text x="560" y="210" class="field-text fk-field">🔗 kategori_id (FK)</text>
+    <text x="560" y="225" class="field-text">created_at</text>
+    <text x="560" y="240" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Kategori Table -->
+  <g id="kategori-table">
+    <rect x="800" y="80" width="150" height="120" class="table-box"/>
+    <rect x="800" y="80" width="150" height="30" class="table-header"/>
+    <text x="875" y="100" text-anchor="middle" class="table-title">KATEGORI</text>
+    <text x="810" y="120" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="810" y="135" class="field-text">nama</text>
+    <text x="810" y="150" class="field-text">created_at</text>
+    <text x="810" y="165" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Keranjang Table -->
+  <g id="keranjang-table">
+    <rect x="50" y="420" width="180" height="150" class="table-box"/>
+    <rect x="50" y="420" width="180" height="30" class="table-header"/>
+    <text x="140" y="440" text-anchor="middle" class="table-title">KERANJANG</text>
+    <text x="60" y="460" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="60" y="475" class="field-text fk-field">🔗 user_id (FK)</text>
+    <text x="60" y="490" class="field-text fk-field">🔗 produk_id (FK)</text>
+    <text x="60" y="505" class="field-text">jumlah</text>
+    <text x="60" y="520" class="field-text">created_at</text>
+    <text x="60" y="535" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Transaksi Table -->
+  <g id="transaksi-table">
+    <rect x="300" y="350" width="200" height="320" class="table-box"/>
+    <rect x="300" y="350" width="200" height="30" class="table-header"/>
+    <text x="400" y="370" text-anchor="middle" class="table-title">TRANSAKSI</text>
+    <text x="310" y="390" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="310" y="405" class="field-text fk-field">🔗 user_id (FK)</text>
+    <text x="310" y="420" class="field-text">order_id</text>
+    <text x="310" y="435" class="field-text">nama_penerima</text>
+    <text x="310" y="450" class="field-text">alamat</text>
+    <text x="310" y="465" class="field-text">no_hp</text>
+    <text x="310" y="480" class="field-text">provinsi_id</text>
+    <text x="310" y="495" class="field-text">provinsi_nama</text>
+    <text x="310" y="510" class="field-text">kota_id</text>
+    <text x="310" y="525" class="field-text">kota_nama</text>
+    <text x="310" y="540" class="field-text">kurir</text>
+    <text x="310" y="555" class="field-text">paket</text>
+    <text x="310" y="570" class="field-text">paket_harga</text>
+    <text x="310" y="585" class="field-text">paket_estimasi</text>
+    <text x="310" y="600" class="field-text">ongkir</text>
+    <text x="310" y="615" class="field-text">total</text>
+    <text x="310" y="630" class="field-text">status</text>
+    <text x="310" y="645" class="field-text">payment_method</text>
+    <text x="310" y="660" class="field-text">snap_token</text>
+  </g>
+  
+  <!-- Transaksi Detail Table -->
+  <g id="transaksi-detail-table">
+    <rect x="550" y="350" width="200" height="200" class="table-box"/>
+    <rect x="550" y="350" width="200" height="30" class="table-header"/>
+    <text x="650" y="370" text-anchor="middle" class="table-title">TRANSAKSI_DETAIL</text>
+    <text x="560" y="390" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="560" y="405" class="field-text fk-field">🔗 transaksi_id (FK)</text>
+    <text x="560" y="420" class="field-text fk-field">🔗 produk_id (FK)</text>
+    <text x="560" y="435" class="field-text">nama_produk</text>
+    <text x="560" y="450" class="field-text">gambar_produk</text>
+    <text x="560" y="465" class="field-text">harga</text>
+    <text x="560" y="480" class="field-text">jumlah</text>
+    <text x="560" y="495" class="field-text">subtotal</text>
+    <text x="560" y="510" class="field-text">created_at</text>
+    <text x="560" y="525" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Provinsi Table -->
+  <g id="provinsi-table">
+    <rect x="50" y="650" width="150" height="120" class="table-box"/>
+    <rect x="50" y="650" width="150" height="30" class="table-header"/>
+    <text x="125" y="670" text-anchor="middle" class="table-title">PROVINSI</text>
+    <text x="60" y="690" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="60" y="705" class="field-text">nama</text>
+    <text x="60" y="720" class="field-text">created_at</text>
+    <text x="60" y="735" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Kab Kota Table -->
+  <g id="kab-kota-table">
+    <rect x="250" y="650" width="150" height="135" class="table-box"/>
+    <rect x="250" y="650" width="150" height="30" class="table-header"/>
+    <text x="325" y="670" text-anchor="middle" class="table-title">KAB_KOTA</text>
+    <text x="260" y="690" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="260" y="705" class="field-text fk-field">🔗 provinsi_id (FK)</text>
+    <text x="260" y="720" class="field-text">nama</text>
+    <text x="260" y="735" class="field-text">created_at</text>
+    <text x="260" y="750" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Kecamatan Table -->
+  <g id="kecamatan-table">
+    <rect x="450" y="650" width="150" height="135" class="table-box"/>
+    <rect x="450" y="650" width="150" height="30" class="table-header"/>
+    <text x="525" y="670" text-anchor="middle" class="table-title">KECAMATAN</text>
+    <text x="460" y="690" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="460" y="705" class="field-text fk-field">🔗 kab_kot_id (FK)</text>
+    <text x="460" y="720" class="field-text">nama</text>
+    <text x="460" y="735" class="field-text">created_at</text>
+    <text x="460" y="750" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Desa Table -->
+  <g id="desa-table">
+    <rect x="650" y="650" width="150" height="135" class="table-box"/>
+    <rect x="650" y="650" width="150" height="30" class="table-header"/>
+    <text x="725" y="670" text-anchor="middle" class="table-title">DESA</text>
+    <text x="660" y="690" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="660" y="705" class="field-text fk-field">🔗 kecamatan_id (FK)</text>
+    <text x="660" y="720" class="field-text">nama</text>
+    <text x="660" y="735" class="field-text">created_at</text>
+    <text x="660" y="750" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Profil Lengkap Pengguna Table -->
+  <g id="profil-lengkap-table">
+    <rect x="850" y="350" width="220" height="200" class="table-box"/>
+    <rect x="850" y="350" width="220" height="30" class="table-header"/>
+    <text x="960" y="370" text-anchor="middle" class="table-title">PROFIL_LENGKAP_PENGGUNAS</text>
+    <text x="860" y="390" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="860" y="405" class="field-text fk-field">🔗 user_id (FK)</text>
+    <text x="860" y="420" class="field-text">name_penerima</text>
+    <text x="860" y="435" class="field-text">alamat</text>
+    <text x="860" y="450" class="field-text">no_telp</text>
+    <text x="860" y="465" class="field-text">provinsi_id</text>
+    <text x="860" y="480" class="field-text">provinsi_nama</text>
+    <text x="860" y="495" class="field-text">kota_id</text>
+    <text x="860" y="510" class="field-text">kota_nama</text>
+    <text x="860" y="525" class="field-text">created_at</text>
+    <text x="860" y="540" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Additional Tables -->
+  <!-- Status Table -->
+  <g id="status-table">
+    <rect x="1100" y="80" width="150" height="120" class="table-box"/>
+    <rect x="1100" y="80" width="150" height="30" class="table-header"/>
+    <text x="1175" y="100" text-anchor="middle" class="table-title">STATUS</text>
+    <text x="1110" y="120" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="1110" y="135" class="field-text">nama</text>
+    <text x="1110" y="150" class="field-text">created_at</text>
+    <text x="1110" y="165" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Metode Table -->
+  <g id="metode-table">
+    <rect x="1100" y="230" width="150" height="120" class="table-box"/>
+    <rect x="1100" y="230" width="150" height="30" class="table-header"/>
+    <text x="1175" y="250" text-anchor="middle" class="table-title">METODE</text>
+    <text x="1110" y="270" class="field-text pk-field">🔑 id (PK)</text>
+    <text x="1110" y="285" class="field-text">nama</text>
+    <text x="1110" y="300" class="field-text">created_at</text>
+    <text x="1110" y="315" class="field-text">updated_at</text>
+  </g>
+  
+  <!-- Relationship Lines -->
+  <!-- User to Group -->
+  <line x1="250" y1="210" x2="320" y2="140" class="relationship-line"/>
+  <text x="285" y="175" class="relationship-text">1:N</text>
+  
+  <!-- User to Keranjang -->
+  <line x1="150" y1="360" x2="150" y2="420" class="relationship-line"/>
+  <text x="155" y="390" class="relationship-text">1:N</text>
+  
+  <!-- User to Transaksi -->
+  <line x1="250" y1="220" x2="300" y2="405" class="relationship-line"/>
+  <text x="275" y="312" class="relationship-text">1:N</text>
+  
+  <!-- User to Profil Lengkap -->
+  <line x1="250" y1="180" x2="850" y2="405" class="relationship-line"/>
+  <text x="550" y="292" class="relationship-text">1:N</text>
+  
+  <!-- Produk to Kategori -->
+  <line x1="730" y1="210" x2="800" y2="140" class="relationship-line"/>
+  <text x="765" y="175" class="relationship-text">N:1</text>
+  
+  <!-- Produk to Keranjang -->
+  <line x1="550" y1="180" x2="230" y2="490" class="relationship-line"/>
+  <text x="390" y="335" class="relationship-text">1:N</text>
+  
+  <!-- Produk to Transaksi Detail -->
+  <line x1="640" y1="280" x2="650" y2="350" class="relationship-line"/>
+  <text x="645" y="315" class="relationship-text">1:N</text>
+  
+  <!-- Transaksi to Transaksi Detail -->
+  <line x1="500" y1="450" x2="550" y2="450" class="relationship-line"/>
+  <text x="525" y="445" class="relationship-text">1:N</text>
+  
+  <!-- Geographic Relationships -->
+  <!-- Provinsi to Kab Kota -->
+  <line x1="200" y1="710" x2="250" y2="710" class="relationship-line"/>
+  <text x="225" y="705" class="relationship-text">1:N</text>
+  
+  <!-- Kab Kota to Kecamatan -->
+  <line x1="400" y1="717" x2="450" y2="717" class="relationship-line"/>
+  <text x="425" y="712" class="relationship-text">1:N</text>
+  
+  <!-- Kecamatan to Desa -->
+  <line x1="600" y1="717" x2="650" y2="717" class="relationship-line"/>
+  <text x="625" y="712" class="relationship-text">1:N</text>
+  
+  <!-- User to Geographic Tables -->
+  <line x1="150" y1="360" x2="125" y2="650" class="relationship-line"/>
+  <text x="137" y="505" class="relationship-text">N:1</text>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <rect x="850" y="650" width="200" height="120" style="fill: #f8f9fa; stroke: #343a40; stroke-width: 1;"/>
+    <text x="950" y="670" text-anchor="middle" style="font-family: Arial, sans-serif; font-size: 12px; font-weight: bold;">Legend</text>
+    <text x="860" y="690" class="field-text pk-field">🔑 Primary Key (PK)</text>
+    <text x="860" y="705" class="field-text fk-field">🔗 Foreign Key (FK)</text>
+    <text x="860" y="720" class="relationship-text">1:N = One to Many</text>
+    <text x="860" y="735" class="relationship-text">N:1 = Many to One</text>
+    <text x="860" y="750" class="field-text">Regular Field</text>
+  </g>
+</svg>

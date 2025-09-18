@@ -1,0 +1,25 @@
+.table .row-action {
+    min-width: 110px;
+}
+
+.dataTables_wrapper .row > .col-sm-12 {
+    overflow-x: auto;
+}
+
+.swal2-modal .swal2-styled:focus-visible,
+.swal2-modal .swal2-styled:focus,
+.form-control-plaintext:focus-visible,
+.form-control-plaintext:focus {
+    outline: none;
+}
+
+input[type="file"].form-control {
+    padding: 0.2rem;
+}
+
+@media (max-width: 576px) {
+    .breadcrumb {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}

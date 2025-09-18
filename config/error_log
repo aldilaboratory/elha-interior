@@ -1,0 +1,8 @@
+[22-Aug-2025 10:19:36 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/meedele1/dewanpetshop.store/config/services.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/meedele1/dewanpetshop.store/config/services.php on line 18
+[22-Aug-2025 10:20:41 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/meedele1/dewanpetshop.store/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/meedele1/dewanpetshop.store/config/database.php on line 19

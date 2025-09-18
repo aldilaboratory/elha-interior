@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .table-box { fill: #ffffff; stroke: #2c3e50; stroke-width: 2; }
+      .table-header { fill: #3498db; }
+      .table-title { fill: white; font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: bold; }
+      .field-text { fill: #2c3e50; font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; }
+      .pk-field { fill: #e74c3c; font-weight: bold; }
+      .fk-field { fill: #27ae60; font-weight: bold; }
+      .nullable-field { fill: #95a5a6; font-style: italic; }
+      .data-type { fill: #8e44ad; font-size: 9px; }
+      .relationship-line { stroke: #34495e; stroke-width: 2; fill: none; }
+      .relationship-text { fill: #7f8c8d; font-family: 'Segoe UI', Arial, sans-serif; font-size: 9px; }
+      .section-title { fill: #2c3e50; font-family: 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: bold; }
+    </style>
+  </defs>
+  
+  <!-- Main Title -->
+  <text x="800" y="30" text-anchor="middle" style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 28px; font-weight: bold; fill: #2c3e50;">
+    DawanPetshop - Database Schema Diagram
+  </text>
+  
+  <!-- Core Business Tables Section -->
+  <text x="50" y="70" class="section-title">Core Business Tables</text>
+  
+  <!-- User Table (Enhanced) -->
+  <g id="user-table-detailed">
+    <rect x="50" y="90" width="280" height="320" class="table-box"/>
+    <rect x="50" y="90" width="280" height="35" class="table-header"/>
+    <text x="190" y="112" text-anchor="middle" class="table-title">USER</text>
+    
+    <text x="60" y="135" class="field-text pk-field">🔑 id</text>
+    <text x="200" y="135" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="60" y="150" class="field-text">name</text>
+    <text x="200" y="150" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="60" y="165" class="field-text">username</text>
+    <text x="200" y="165" class="data-type">VARCHAR(255) UNIQUE NOT NULL</text>
+    
+    <text x="60" y="180" class="field-text">email</text>
+    <text x="200" y="180" class="data-type">VARCHAR(255) UNIQUE NOT NULL</text>
+    
+    <text x="60" y="195" class="field-text nullable-field">phone</text>
+    <text x="200" y="195" class="data-type">VARCHAR(255) NULLABLE</text>
+    
+    <text x="60" y="210" class="field-text">password</text>
+    <text x="200" y="210" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="60" y="225" class="field-text fk-field">🔗 group_id</text>
+    <text x="200" y="225" class="data-type">INT NOT NULL</text>
+    
+    <text x="60" y="240" class="field-text fk-field nullable-field">🔗 provinsi_id</text>
+    <text x="200" y="240" class="data-type">INT NULLABLE</text>
+    
+    <text x="60" y="255" class="field-text fk-field nullable-field">🔗 kab_kot_id</text>
+    <text x="200" y="255" class="data-type">INT NULLABLE</text>
+    
+    <text x="60" y="270" class="field-text fk-field nullable-field">🔗 kecamatan_id</text>
+    <text x="200" y="270" class="data-type">INT NULLABLE</text>
+    
+    <text x="60" y="285" class="field-text fk-field nullable-field">🔗 desa_id</text>
+    <text x="200" y="285" class="data-type">INT NULLABLE</text>
+    
+    <text x="60" y="300" class="field-text nullable-field">alamat</text>
+    <text x="200" y="300" class="data-type">TEXT NULLABLE</text>
+    
+    <text x="60" y="315" class="field-text">created_at</text>
+    <text x="200" y="315" class="data-type">TIMESTAMP</text>
+    
+    <text x="60" y="330" class="field-text">updated_at</text>
+    <text x="200" y="330" class="data-type">TIMESTAMP</text>
+    
+    <text x="60" y="350" class="field-text">email_verified_at</text>
+    <text x="200" y="350" class="data-type">TIMESTAMP NULLABLE</text>
+    
+    <text x="60" y="365" class="field-text">remember_token</text>
+    <text x="200" y="365" class="data-type">VARCHAR(100) NULLABLE</text>
+  </g>
+  
+  <!-- Group Table (Enhanced) -->
+  <g id="group-table-detailed">
+    <rect x="380" y="90" width="220" height="140" class="table-box"/>
+    <rect x="380" y="90" width="220" height="35" class="table-header"/>
+    <text x="490" y="112" text-anchor="middle" class="table-title">GROUP</text>
+    
+    <text x="390" y="135" class="field-text pk-field">🔑 id</text>
+    <text x="480" y="135" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="390" y="150" class="field-text">nama</text>
+    <text x="480" y="150" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="390" y="165" class="field-text">created_at</text>
+    <text x="480" y="165" class="data-type">TIMESTAMP</text>
+    
+    <text x="390" y="180" class="field-text">updated_at</text>
+    <text x="480" y="180" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Product Management Section -->
+  <text x="650" y="70" class="section-title">Product Management</text>
+  
+  <!-- Produk Table (Enhanced) -->
+  <g id="produk-table-detailed">
+    <rect x="650" y="90" width="280" height="240" class="table-box"/>
+    <rect x="650" y="90" width="280" height="35" class="table-header"/>
+    <text x="790" y="112" text-anchor="middle" class="table-title">PRODUK</text>
+    
+    <text x="660" y="135" class="field-text pk-field">🔑 id</text>
+    <text x="780" y="135" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="660" y="150" class="field-text">nama</text>
+    <text x="780" y="150" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="660" y="165" class="field-text">deskripsi</text>
+    <text x="780" y="165" class="data-type">TEXT NOT NULL</text>
+    
+    <text x="660" y="180" class="field-text">image</text>
+    <text x="780" y="180" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="660" y="195" class="field-text">harga</text>
+    <text x="780" y="195" class="data-type">INT NOT NULL</text>
+    
+    <text x="660" y="210" class="field-text">berat</text>
+    <text x="780" y="210" class="data-type">INT NOT NULL</text>
+    
+    <text x="660" y="225" class="field-text fk-field">🔗 kategori_id</text>
+    <text x="780" y="225" class="data-type">INT NOT NULL</text>
+    
+    <text x="660" y="240" class="field-text">created_at</text>
+    <text x="780" y="240" class="data-type">TIMESTAMP</text>
+    
+    <text x="660" y="255" class="field-text">updated_at</text>
+    <text x="780" y="255" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Kategori Table (Enhanced) -->
+  <g id="kategori-table-detailed">
+    <rect x="980" y="90" width="220" height="140" class="table-box"/>
+    <rect x="980" y="90" width="220" height="35" class="table-header"/>
+    <text x="1090" y="112" text-anchor="middle" class="table-title">KATEGORI</text>
+    
+    <text x="990" y="135" class="field-text pk-field">🔑 id</text>
+    <text x="1080" y="135" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="990" y="150" class="field-text">nama</text>
+    <text x="1080" y="150" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="990" y="165" class="field-text">created_at</text>
+    <text x="1080" y="165" class="data-type">TIMESTAMP</text>
+    
+    <text x="990" y="180" class="field-text">updated_at</text>
+    <text x="1080" y="180" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Shopping & Transaction Section -->
+  <text x="50" y="470" class="section-title">Shopping & Transaction Management</text>
+  
+  <!-- Keranjang Table (Enhanced) -->
+  <g id="keranjang-table-detailed">
+    <rect x="50" y="490" width="250" height="170" class="table-box"/>
+    <rect x="50" y="490" width="250" height="35" class="table-header"/>
+    <text x="175" y="512" text-anchor="middle" class="table-title">KERANJANG</text>
+    
+    <text x="60" y="535" class="field-text pk-field">🔑 id</text>
+    <text x="160" y="535" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="60" y="550" class="field-text fk-field">🔗 user_id</text>
+    <text x="160" y="550" class="data-type">INT NOT NULL</text>
+    
+    <text x="60" y="565" class="field-text fk-field">🔗 produk_id</text>
+    <text x="160" y="565" class="data-type">INT NOT NULL</text>
+    
+    <text x="60" y="580" class="field-text">jumlah</text>
+    <text x="160" y="580" class="data-type">INT NOT NULL</text>
+    
+    <text x="60" y="595" class="field-text">created_at</text>
+    <text x="160" y="595" class="data-type">TIMESTAMP</text>
+    
+    <text x="60" y="610" class="field-text">updated_at</text>
+    <text x="160" y="610" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Transaksi Table (Enhanced) -->
+  <g id="transaksi-table-detailed">
+    <rect x="350" y="490" width="320" height="380" class="table-box"/>
+    <rect x="350" y="490" width="320" height="35" class="table-header"/>
+    <text x="510" y="512" text-anchor="middle" class="table-title">TRANSAKSI</text>
+    
+    <text x="360" y="535" class="field-text pk-field">🔑 id</text>
+    <text x="500" y="535" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="360" y="550" class="field-text fk-field">🔗 user_id</text>
+    <text x="500" y="550" class="data-type">INT NOT NULL</text>
+    
+    <text x="360" y="565" class="field-text">order_id</text>
+    <text x="500" y="565" class="data-type">VARCHAR(255) UNIQUE NOT NULL</text>
+    
+    <text x="360" y="580" class="field-text">nama_penerima</text>
+    <text x="500" y="580" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="595" class="field-text">alamat</text>
+    <text x="500" y="595" class="data-type">TEXT NOT NULL</text>
+    
+    <text x="360" y="610" class="field-text">no_hp</text>
+    <text x="500" y="610" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="625" class="field-text">provinsi_id</text>
+    <text x="500" y="625" class="data-type">BIGINT UNSIGNED NOT NULL</text>
+    
+    <text x="360" y="640" class="field-text">provinsi_nama</text>
+    <text x="500" y="640" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="655" class="field-text">kota_id</text>
+    <text x="500" y="655" class="data-type">BIGINT UNSIGNED NOT NULL</text>
+    
+    <text x="360" y="670" class="field-text">kota_nama</text>
+    <text x="500" y="670" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="685" class="field-text">kurir</text>
+    <text x="500" y="685" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="700" class="field-text">paket</text>
+    <text x="500" y="700" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="715" class="field-text">paket_harga</text>
+    <text x="500" y="715" class="data-type">INT DEFAULT 0</text>
+    
+    <text x="360" y="730" class="field-text nullable-field">paket_estimasi</text>
+    <text x="500" y="730" class="data-type">VARCHAR(255) NULLABLE</text>
+    
+    <text x="360" y="745" class="field-text">ongkir</text>
+    <text x="500" y="745" class="data-type">INT DEFAULT 0</text>
+    
+    <text x="360" y="760" class="field-text">total</text>
+    <text x="500" y="760" class="data-type">INT DEFAULT 0</text>
+    
+    <text x="360" y="775" class="field-text">status</text>
+    <text x="500" y="775" class="data-type">VARCHAR(255) DEFAULT 'pending'</text>
+    
+    <text x="360" y="790" class="field-text">payment_method</text>
+    <text x="500" y="790" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="360" y="805" class="field-text nullable-field">snap_token</text>
+    <text x="500" y="805" class="data-type">VARCHAR(255) NULLABLE</text>
+    
+    <text x="360" y="820" class="field-text">created_at</text>
+    <text x="500" y="820" class="data-type">TIMESTAMP</text>
+    
+    <text x="360" y="835" class="field-text">updated_at</text>
+    <text x="500" y="835" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Transaksi Detail Table (Enhanced) -->
+  <g id="transaksi-detail-table-detailed">
+    <rect x="720" y="490" width="300" height="260" class="table-box"/>
+    <rect x="720" y="490" width="300" height="35" class="table-header"/>
+    <text x="870" y="512" text-anchor="middle" class="table-title">TRANSAKSI_DETAIL</text>
+    
+    <text x="730" y="535" class="field-text pk-field">🔑 id</text>
+    <text x="870" y="535" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="730" y="550" class="field-text fk-field">🔗 transaksi_id</text>
+    <text x="870" y="550" class="data-type">BIGINT UNSIGNED NOT NULL</text>
+    
+    <text x="730" y="565" class="field-text fk-field">🔗 produk_id</text>
+    <text x="870" y="565" class="data-type">BIGINT UNSIGNED NOT NULL</text>
+    
+    <text x="730" y="580" class="field-text">nama_produk</text>
+    <text x="870" y="580" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="730" y="595" class="field-text">gambar_produk</text>
+    <text x="870" y="595" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="730" y="610" class="field-text">harga</text>
+    <text x="870" y="610" class="data-type">INT NOT NULL</text>
+    
+    <text x="730" y="625" class="field-text">jumlah</text>
+    <text x="870" y="625" class="data-type">INT NOT NULL</text>
+    
+    <text x="730" y="640" class="field-text">subtotal</text>
+    <text x="870" y="640" class="data-type">INT NOT NULL</text>
+    
+    <text x="730" y="655" class="field-text">created_at</text>
+    <text x="870" y="655" class="data-type">TIMESTAMP</text>
+    
+    <text x="730" y="670" class="field-text">updated_at</text>
+    <text x="870" y="670" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Geographic Data Section -->
+  <text x="1100" y="470" class="section-title">Geographic Data</text>
+  
+  <!-- Provinsi Table (Enhanced) -->
+  <g id="provinsi-table-detailed">
+    <rect x="1100" y="490" width="220" height="140" class="table-box"/>
+    <rect x="1100" y="490" width="220" height="35" class="table-header"/>
+    <text x="1210" y="512" text-anchor="middle" class="table-title">PROVINSI</text>
+    
+    <text x="1110" y="535" class="field-text pk-field">🔑 id</text>
+    <text x="1200" y="535" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="1110" y="550" class="field-text">nama</text>
+    <text x="1200" y="550" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="1110" y="565" class="field-text">created_at</text>
+    <text x="1200" y="565" class="data-type">TIMESTAMP</text>
+    
+    <text x="1110" y="580" class="field-text">updated_at</text>
+    <text x="1200" y="580" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Kab Kota Table (Enhanced) -->
+  <g id="kab-kota-table-detailed">
+    <rect x="1100" y="660" width="250" height="155" class="table-box"/>
+    <rect x="1100" y="660" width="250" height="35" class="table-header"/>
+    <text x="1225" y="682" text-anchor="middle" class="table-title">KAB_KOTA</text>
+    
+    <text x="1110" y="705" class="field-text pk-field">🔑 id</text>
+    <text x="1220" y="705" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="1110" y="720" class="field-text fk-field">🔗 provinsi_id</text>
+    <text x="1220" y="720" class="data-type">INT NOT NULL</text>
+    
+    <text x="1110" y="735" class="field-text">nama</text>
+    <text x="1220" y="735" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="1110" y="750" class="field-text">created_at</text>
+    <text x="1220" y="750" class="data-type">TIMESTAMP</text>
+    
+    <text x="1110" y="765" class="field-text">updated_at</text>
+    <text x="1220" y="765" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Additional Tables Section -->
+  <text x="50" y="920" class="section-title">Additional Tables</text>
+  
+  <!-- Profil Lengkap Pengguna Table (Enhanced) -->
+  <g id="profil-lengkap-table-detailed">
+    <rect x="50" y="940" width="320" height="240" class="table-box"/>
+    <rect x="50" y="940" width="320" height="35" class="table-header"/>
+    <text x="210" y="962" text-anchor="middle" class="table-title">PROFIL_LENGKAP_PENGGUNAS</text>
+    
+    <text x="60" y="985" class="field-text pk-field">🔑 id</text>
+    <text x="220" y="985" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="60" y="1000" class="field-text fk-field nullable-field">🔗 user_id</text>
+    <text x="220" y="1000" class="data-type">BIGINT UNSIGNED NULLABLE</text>
+    
+    <text x="60" y="1015" class="field-text">name_penerima</text>
+    <text x="220" y="1015" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="60" y="1030" class="field-text">alamat</text>
+    <text x="220" y="1030" class="data-type">TEXT NOT NULL</text>
+    
+    <text x="60" y="1045" class="field-text">no_telp</text>
+    <text x="220" y="1045" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="60" y="1060" class="field-text">provinsi_id</text>
+    <text x="220" y="1060" class="data-type">BIGINT UNSIGNED NOT NULL</text>
+    
+    <text x="60" y="1075" class="field-text">provinsi_nama</text>
+    <text x="220" y="1075" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="60" y="1090" class="field-text">kota_id</text>
+    <text x="220" y="1090" class="data-type">BIGINT UNSIGNED NOT NULL</text>
+    
+    <text x="60" y="1105" class="field-text">kota_nama</text>
+    <text x="220" y="1105" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="60" y="1120" class="field-text">created_at</text>
+    <text x="220" y="1120" class="data-type">TIMESTAMP</text>
+    
+    <text x="60" y="1135" class="field-text">updated_at</text>
+    <text x="220" y="1135" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Status & Metode Tables -->
+  <g id="status-table-detailed">
+    <rect x="420" y="940" width="220" height="140" class="table-box"/>
+    <rect x="420" y="940" width="220" height="35" class="table-header"/>
+    <text x="530" y="962" text-anchor="middle" class="table-title">STATUS</text>
+    
+    <text x="430" y="985" class="field-text pk-field">🔑 id</text>
+    <text x="520" y="985" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="430" y="1000" class="field-text">nama</text>
+    <text x="520" y="1000" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="430" y="1015" class="field-text">created_at</text>
+    <text x="520" y="1015" class="data-type">TIMESTAMP</text>
+    
+    <text x="430" y="1030" class="field-text">updated_at</text>
+    <text x="520" y="1030" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <g id="metode-table-detailed">
+    <rect x="690" y="940" width="220" height="140" class="table-box"/>
+    <rect x="690" y="940" width="220" height="35" class="table-header"/>
+    <text x="800" y="962" text-anchor="middle" class="table-title">METODE</text>
+    
+    <text x="700" y="985" class="field-text pk-field">🔑 id</text>
+    <text x="790" y="985" class="data-type">BIGINT UNSIGNED AUTO_INCREMENT</text>
+    
+    <text x="700" y="1000" class="field-text">nama</text>
+    <text x="790" y="1000" class="data-type">VARCHAR(255) NOT NULL</text>
+    
+    <text x="700" y="1015" class="field-text">created_at</text>
+    <text x="790" y="1015" class="data-type">TIMESTAMP</text>
+    
+    <text x="700" y="1030" class="field-text">updated_at</text>
+    <text x="790" y="1030" class="data-type">TIMESTAMP</text>
+  </g>
+  
+  <!-- Key Relationships (Simplified) -->
+  <!-- User to Group -->
+  <line x1="330" y1="225" x2="380" y2="150" class="relationship-line"/>
+  <text x="355" y="187" class="relationship-text">N:1</text>
+  
+  <!-- Produk to Kategori -->
+  <line x1="930" y1="225" x2="980" y2="150" class="relationship-line"/>
+  <text x="955" y="187" class="relationship-text">N:1</text>
+  
+  <!-- User to Keranjang -->
+  <line x1="190" y1="410" x2="175" y2="490" class="relationship-line"/>
+  <text x="182" y="450" class="relationship-text">1:N</text>
+  
+  <!-- Produk to Keranjang -->
+  <line x1="650" y1="200" x2="300" y2="565" class="relationship-line"/>
+  <text x="475" y="382" class="relationship-text">1:N</text>
+  
+  <!-- User to Transaksi -->
+  <line x1="330" y1="250" x2="350" y2="550" class="relationship-line"/>
+  <text x="340" y="400" class="relationship-text">1:N</text>
+  
+  <!-- Transaksi to Transaksi Detail -->
+  <line x1="670" y1="650" x2="720" y2="600" class="relationship-line"/>
+  <text x="695" y="625" class="relationship-text">1:N</text>
+  
+  <!-- Produk to Transaksi Detail -->
+  <line x1="790" y1="330" x2="870" y2="490" class="relationship-line"/>
+  <text x="830" y="410" class="relationship-text">1:N</text>
+  
+  <!-- Provinsi to Kab Kota -->
+  <line x1="1210" y1="630" x2="1225" y2="660" class="relationship-line"/>
+  <text x="1217" y="645" class="relationship-text">1:N</text>
+  
+  <!-- Legend -->
+  <g id="legend-detailed">
+    <rect x="1000" y="940" width="280" height="180" style="fill: #ecf0f1; stroke: #34495e; stroke-width: 2;"/>
+    <text x="1140" y="962" text-anchor="middle" style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: bold;">Schema Legend</text>
+    
+    <text x="1010" y="985" class="field-text pk-field">🔑 Primary Key (PK)</text>
+    <text x="1010" y="1000" class="field-text fk-field">🔗 Foreign Key (FK)</text>
+    <text x="1010" y="1015" class="field-text nullable-field">Nullable Field</text>
+    <text x="1010" y="1030" class="field-text">Required Field</text>
+    <text x="1010" y="1045" class="data-type">Data Type & Constraints</text>
+    
+    <text x="1010" y="1070" class="relationship-text">Relationships:</text>
+    <text x="1010" y="1085" class="relationship-text">1:N = One to Many</text>
+    <text x="1010" y="1100" class="relationship-text">N:1 = Many to One</text>
+  </g>
+</svg>
