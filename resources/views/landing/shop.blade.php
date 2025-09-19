@@ -95,9 +95,8 @@
                 <div class="hero-small-banner"
                     style="background-image: url({{asset('upload/produkbarupromosi/'.$produkBaruPromosi->image)}});
                            min-height: 250px;
-                           background-position: center center;
-                           background-size: cover;
-                           background-repeat: no-repeat;">
+                           background-position: center;
+                           object-fit: cover;">
                     <div class="content">
                         <h2 class="mb-2" style="color: orange;">
                             {{$produkBaruPromosi->nama}}
@@ -111,9 +110,8 @@
                 <div class="hero-small-banner" 
                     style="background-image: url({{asset('upload/infopromosi/'.$infoPromosi->image)}});
                            min-height: 250px;
-                           background-position: center center;
-                           background-size: cover;
-                           background-repeat: no-repeat;">
+                           background-position: center;
+                           object-fit: cover;">
                     <div class="content">
                         <h2 class="mb-2" style="color: orange;">{{$infoPromosi->nama}}</h2>
                         <p class="text-dark">{{$infoPromosi->deskripsi}}</p>

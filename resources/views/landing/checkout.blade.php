@@ -32,52 +32,54 @@
                     </div>
 
                     {{-- Data penerima --}}
-                    <div class="mb-3">
-                        <label class="form-label">Nama Penerima</label>
-                        <input type="text" name="nama" id="nama" class="form-control"
-                               value="{{ old('nama', Auth::user()->name) }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Alamat Lengkap</label>
-                        <textarea name="alamat" id="alamat" class="form-control" rows="3" required>{{ old('alamat', Auth::user()->alamat) }}</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nomor HP</label>
-                        <input type="text" name="no_hp" id="no_hp" class="form-control"
-                               value="{{ old('no_hp', Auth::user()->phone) }}" required>
-                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Nama Penerima</label>
+                            <input type="text" name="nama" id="nama" class="form-control"
+                                   value="{{ old('nama', Auth::user()->name) }}" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Nomor HP</label>
+                            <input type="text" name="no_hp" id="no_hp" class="form-control"
+                                   value="{{ old('no_hp', Auth::user()->phone) }}" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Alamat Lengkap</label>
+                            <textarea name="alamat" id="alamat" class="form-control" rows="3" required>{{ old('alamat', Auth::user()->alamat) }}</textarea>
+                        </div>
 
-                    {{-- Pilihan pengiriman --}}
-                    <div class="mb-3">
-                        <label class="form-label">Provinsi</label>
-                        <select name="provinsi_id" id="provinsi" class="form-control" required>
-                            <option value="">Pilih Provinsi</option>
-                        </select>
-                        <input type="hidden" name="provinsi_nama" id="provinsi_nama">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kota / Kabupaten</label>
-                        <select name="kota_id" id="kota" class="form-control" required>
-                            <option value="">Pilih Kota</option>
-                        </select>
-                        <input type="hidden" name="kota_nama" id="kota_nama">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kurir</label>
-                        <select name="kurir" id="kurir" class="form-control" required>
-                            <option value="">Pilih Kurir</option>
-                            <option value="jne">JNE</option>
-                            <option value="tiki">TIKI</option>
-                            <option value="pos">POS Indonesia</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Paket</label>
-                        <select name="paket" id="paket" class="form-control" required>
-                            <option value="">Pilih Paket</option>
-                        </select>
-                        <input type="hidden" name="paket_harga" id="paket_harga">
-                        <input type="hidden" name="paket_estimasi" id="paket_estimasi">
+                        {{-- Pilihan pengiriman --}}
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Provinsi</label>
+                            <select name="provinsi_id" id="provinsi" class="form-control" required>
+                                <option value="">Pilih Provinsi</option>
+                            </select>
+                            <input type="hidden" name="provinsi_nama" id="provinsi_nama">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Kota / Kabupaten</label>
+                            <select name="kota_id" id="kota" class="form-control" required>
+                                <option value="">Pilih Kota</option>
+                            </select>
+                            <input type="hidden" name="kota_nama" id="kota_nama">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Kurir</label>
+                            <select name="kurir" id="kurir" class="form-control" required>
+                                <option value="">Pilih Kurir</option>
+                                <option value="jne">JNE</option>
+                                <option value="tiki">TIKI</option>
+                                <option value="pos">POS Indonesia</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Paket</label>
+                            <select name="paket" id="paket" class="form-control" required>
+                                <option value="">Pilih Paket</option>
+                            </select>
+                            <input type="hidden" name="paket_harga" id="paket_harga">
+                            <input type="hidden" name="paket_estimasi" id="paket_estimasi">
+                        </div>
                     </div>
 
                     {{-- Ongkir & total --}}
@@ -89,8 +91,8 @@
                         <input type="hidden" name="payment_method" value="bank_transfer">
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100" id="submit-btn">Lanjut ke Pembayaran</button>
-                </form>
+                    
+                
             </div>
 
             {{-- Ringkasan belanja --}}
@@ -114,9 +116,11 @@
                                 <span id="totalDisplay">Rp {{ number_format($total) }}</span>
                             </li>
                         </ul>
+                        <button type="submit" class="btn btn-primary w-100 mt-3" id="submit-btn">Lanjut ke Pembayaran</button>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 

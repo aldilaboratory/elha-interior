@@ -2,27 +2,34 @@
     <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
         <ul class="childNav" data-parent="promosi">
             <li class="nav-item">
+                <a class="{{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <i class="nav-icon cil-home"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+            <li class="nav-item">
                 <a class="{{ request()->routeIs('bannerpromosi.*') ? 'active' : '' }}" href="{{ route('bannerpromosi.index') }}">
                     <i class="nav-icon fas fa-image"></i>
                     <span class="item-name">Banner Promosi</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="{{ request()->routeIs('footerpromosi.*') ? 'active' : '' }}" href="{{ route('footerpromosi.index') }}">
                     <i class="nav-icon fas fa-images"></i>
                     <span class="item-name">Footer Promosi</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="{{ request()->routeIs('produkbaru.*') ? 'active' : '' }}" href="{{ route('produkbaru.edit',1) }}">
                     <i class="nav-icon fas fa-star"></i>
-                    <span class="item-name">Produk Promosi</span>
+                    <span class="item-name">Produk Promosi 1</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="{{ request()->routeIs('infopromosi.*') ? 'active' : '' }}" href="{{ route('infopromosi.edit',1) }}">
                     <i class="nav-icon fas fa-info-circle"></i>
-                    <span class="item-name">Info Promosi</span>
+                    <span class="item-name">Produk Promosi 2</span>
                 </a>
             </li>
         </ul>
