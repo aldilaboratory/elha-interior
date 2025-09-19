@@ -1,0 +1,125 @@
+/* --- Sidebar look & feel --- */
+.sidebar-left {
+  width: 240px;           /* sesuaikan dengan layout kamu */
+  padding: 16px 12px;
+}
+
+.menu-label{
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;         /* biru label "BackOffice" */
+  margin: 4px 8px 14px;
+}
+
+/* list dasar */
+.sidebar-left .childNav{
+  list-style: none;
+  margin: 0 0 14px 0;
+  padding: 0;
+}
+
+/* garis pemisah antar grup */
+.sidebar-left .childNav + .childNav{
+  border-top: 1px solid #e5e7eb; /* abu tipis */
+  padding-top: 14px;
+  margin-top: 14px;
+}
+
+/* item */
+.sidebar-left .childNav .nav-item + .nav-item{ margin-top: 6px; }
+
+.sidebar-left .childNav .nav-item > a{
+  display: flex;                   /* ikon + teks sejajar */
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #94a3b8;                  /* slate-400 */
+  font-weight: 500;
+  transition: background .15s ease, color .15s ease;
+}
+
+/* ikon */
+.sidebar-left .childNav .nav-item > a .nav-icon{
+  width: 20px;                     /* kunci lebar agar rata */
+  text-align: center;
+  color: #94a3b8;
+}
+
+/* hover */
+.sidebar-left .childNav .nav-item > a:hover{
+  background: #f1f5f9;             /* abu sangat muda */
+  color: #2563eb;
+}
+.sidebar-left .childNav .nav-item > a:hover .nav-icon{
+  color: #2563eb;
+}
+
+/* aktif (kamu sudah pakai class 'active' di <a>) */
+.sidebar-left .childNav .nav-item > a.active{
+  background: #eef2ff;             /* biru muda */
+  color: #2563eb;
+  font-weight: 600;
+}
+.sidebar-left .childNav .nav-item > a.active .nav-icon{
+  color: #2563eb;
+}
+
+/* Menghilangkan overlay */
+.sidebar-overlay {
+    display: none !important;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .sidebar-left-secondary {
+        position: fixed !important;
+        left: 60px !important;
+        z-index: 1000 !important;
+        width: 200px !important;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1) !important;
+    }
+}
+
+/* Dark theme support */
+.dark-theme .sidebar-left-secondary {
+    background: #2c2c54 !important;
+    border-right-color: #40407a !important;
+}
+
+.dark-theme .sidebar-left-secondary .childNav li.nav-item a {
+    color: #a4a6b3 !important;
+}
+
+.dark-theme .sidebar-left-secondary .childNav li.nav-item a:hover {
+    background-color: #40407a !important;
+    color: #fff !important;
+}
+
+.dark-theme .sidebar-left-secondary .childNav::before {
+    color: #6c7293 !important;
+}
+
+/* Layout fixes untuk konten utama */
+.app-admin-wrap {
+    display: flex !important;
+}
+
+.side-content-wrap {
+    flex-shrink: 0 !important;
+    width: 250px !important;
+    z-index: 100 !important;
+}
+
+.main-content-wrap {
+    flex: 1 !important;
+    margin-left: 100px !important;
+    min-width: 0 !important;
+}
+
+.main-content {
+    padding: 30px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}

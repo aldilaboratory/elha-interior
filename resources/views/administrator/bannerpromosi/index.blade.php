@@ -50,19 +50,28 @@
 @endsection
 @section('js')
 <script>
-    $('table').DataTable({
-        fixedHeader: true,
-        processing: true,
-        serverSide: true,
-        autoWidth: false,
-        ajax: {
-            url: baseUrl('/bannerpromosi/fetch'),
-            headers: {
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+    $(document).ready(function() {
+        console.log('Initializing DataTable...');
+        console.log('Fetch URL:', "{{ route('bannerpromosi.fetch') }}");
+        
+        $('table').DataTable({
+            fixedHeader: true,
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            ajax: {
+                url: "{{ route('bannerpromosi.fetch') }}",
+                headers: {
+                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                },
+                dataSrc: "data",
+                type: "POST",
+                error: function(xhr, error, thrown) {
+                    console.error('DataTables AJAX Error:', error);
+                    console.error('Response:', xhr.responseText);
+                    console.error('Status:', xhr.status);
+                }
             },
-            dataSrc: "data",
-            type: "POST"
-        },
         order: [
             [1, 'asc']
         ],
@@ -154,6 +163,8 @@
             });
         },
     });
+    
+    }); // End document.ready
 </script>
 @if (session()->has('dataSaved') && session()->get('dataSaved') == true)
 <script>

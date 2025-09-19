@@ -22,6 +22,7 @@
     <!-- Main styles for this application-->
     <link href="{{ asset('assets/css/themes/lite-purple.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/sidebar-custom.css') }}" rel="stylesheet">
 
     {{-- CSS --}}
     @yield('css')
@@ -123,6 +124,7 @@
     <script src="{{ asset('assets/js/scripts/cookies.js') }}"></script>
     <script src="{{ asset('assets/js/scripts/script.min.js') }}"></script>
     <script src="{{ asset('assets/js/scripts/sidebar.large.script.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sidebar-custom.js') }}"></script>
 
     <script>
         const baseUrl = (path, prefix = "/admin") => "{{ url('/') }}" + prefix + path;

@@ -214,7 +214,7 @@ Route::prefix("/admin")
         Route::post("bannerpromosi/fetch", [
             BannerPromosiController::class,
             "fetch",
-        ]);
+        ])->name('bannerpromosi.fetch');
 
         // footerPromosi
         Route::resource("footerpromosi", FooterPromosiController::class);

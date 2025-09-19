@@ -16982,7 +16982,7 @@ a.typo_link.text-gray-900:after {
   min-height: calc(100vh - 80px);
   background: #fff; }
   .main-content-wrap.sidenav-open {
-    width: calc(100% - 120px); }
+    width: calc(100% - 180px); }
 
 .module-loader {
   position: fixed;
