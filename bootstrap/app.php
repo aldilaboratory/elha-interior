@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.only' => \App\Http\Middleware\AdminOnly::class,
         'customer.only' => \App\Http\Middleware\CustomerOnly::class,
         'admin.restriction' => \App\Http\Middleware\AdminRestriction::class,
+        'role.redirect' => \App\Http\Middleware\RoleRedirect::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -94,7 +94,10 @@
                                 <i class="cil-user mr-1"></i> Setting Akun
                             </div>
                             <a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="dropdown-item" style="border: none; background: none; text-align: left; width: 100%; cursor: pointer;">Logout</button>
+                            </form>
                         </div>
                     </div>
                 </div>

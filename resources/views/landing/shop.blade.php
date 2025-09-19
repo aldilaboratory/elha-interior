@@ -164,15 +164,22 @@
                         <!-- Tombol Add to Cart -->
                         <div class="text-center mt-3">
                             @if($value->stok > 0)
-                                <form action="{{ route('landing.cart.add') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <input type="hidden" name="produk_id" value="{{ $value->id }}">
-                                    <input type="hidden" name="jumlah" value="1">
-                                    <button type="submit" class="btn btn-primary" 
-                                            style="width: 100%; background-color: orange; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
-                                        <i class="lni lni-cart"></i> Add to Cart
-                                    </button>
-                                </form>
+                                @auth
+                                    <form action="{{ route('landing.cart.add') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <input type="hidden" name="produk_id" value="{{ $value->id }}">
+                                        <input type="hidden" name="jumlah" value="1">
+                                        <button type="submit" class="btn btn-primary" 
+                                                style="width: 100%; background-color: orange; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
+                                            <i class="lni lni-cart"></i> Add to Cart
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('landing.login') }}" class="btn btn-primary" 
+                                       style="width: 100%; background-color: orange; border: none; padding: 8px 16px; border-radius: 5px; color: white; text-decoration: none; display: inline-block;">
+                                        <i class="lni lni-lock"></i> Login untuk Add to Cart
+                                    </a>
+                                @endauth
                             @else
                                 <button class="btn btn-secondary" disabled style="width: 100%; padding: 8px 16px; border-radius: 5px;">
                                     <i class="lni lni-ban"></i> Stok Habis

@@ -12,7 +12,13 @@ class AuthController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect()->to(route('dashboard'));
+            $user = Auth::user();
+            // Redirect berdasarkan role
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('landing.index');
+            }
         }
 
         return view('auth.index');
@@ -21,7 +27,7 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required'
         ]);
 
@@ -31,18 +37,25 @@ class AuthController extends Controller
                 ->withInput();
         }
 
+        // Coba login tanpa filter group_id, biarkan role yang menentukan
         $isAuth = Auth::attempt([
             'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'group_id' => 1
+            'password' => $request->input('password')
         ]);
 
         if (!$isAuth) {
             return redirect(route('login'))
-                ->withErrors(['auth_failed' => true]);
+                ->withErrors(['auth_failed' => 'Email atau password salah']);
         }
 
-        return redirect()->to(route('dashboard'));
+        $user = Auth::user();
+        
+        // Redirect berdasarkan role
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('landing.index');
+        }
     }
 
     public function logout()

@@ -30,6 +30,7 @@ class User extends Authenticatable
         "phone",
         "password",
         "group_id",
+        "role",
         "provinsi_id",
         "kab_kot_id",
         "kecamatan_id",
@@ -41,5 +42,21 @@ class User extends Authenticatable
 
     public function profileLengkaps() : HasMany {
         return $this->hasMany(ProfilLengkapPengguna::class);
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is customer
+     */
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
     }
 }

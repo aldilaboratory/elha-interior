@@ -97,9 +97,22 @@ Route::prefix("/landing")->middleware('admin.restriction')->group(function () {
     );
 });
 
-// Route landing yang memerlukan middleware customer.only
-Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only'])->group(function () {
+// Route landing yang bisa diakses guest (tanpa login)
+Route::prefix("/landing")->middleware('admin.restriction')->group(function () {
     Route::get("/", [LandingController::class, "index"])->name("landing.index");
+    Route::get("/shop", [LandingController::class, "shop"])->name("shop");
+    Route::get("/shop/detail/{id}", [
+        LandingController::class,
+        "detailProduk",
+    ])->name("shop.detail");
+    Route::get("/all-products", [
+        \App\Http\Controllers\Landing\AllProductController::class,
+        "index",
+    ])->name("landing.products");
+});
+
+// Route landing yang memerlukan login (customer only)
+Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only', 'role.redirect'])->group(function () {
     Route::get("/logout", [LandingAuth::class, "logout"])->name(
         "landing.logout",
     );
@@ -108,31 +121,29 @@ Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only'])->g
     Route::get("/profile", [
         \App\Http\Controllers\Landing\ProfileController::class,
         "index",
-    ])->name("landing.profile")->middleware("auth");
+    ])->name("landing.profile");
 
     Route::put("/profile", [
         \App\Http\Controllers\Landing\ProfileController::class,
         "update",
-    ])->name("landing.profile.update")->middleware("auth");
+    ])->name("landing.profile.update");
 
     Route::post("/profile/change-password", [
         \App\Http\Controllers\Landing\ProfileController::class,
         "changePassword",
-    ])->name("landing.profile.change-password")->middleware("auth");
+    ])->name("landing.profile.change-password");
 
     Route::get("/profile-pengguna", [
         \App\Http\Controllers\Landing\ProfilLengkapPengguna::class,
         "index",
-    ])
-        ->name("landing.profile-pengguna")
-        ->middleware("auth");
+    ])->name("landing.profile-pengguna");
 
     Route::resource(
         "/alamat",
         \App\Http\Controllers\Landing\ProfilLengkapPengguna::class,
     );
 
-    // Route pesanan dan shop
+    // Route pesanan
     Route::get("/pesanan_saya", [
         LandingController::class,
         "pesananSaya",
@@ -141,18 +152,8 @@ Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only'])->g
         LandingController::class,
         "terima",
     ])->name("pesanan.terima");
-    Route::get("/shop", [LandingController::class, "shop"])->name("shop");
-    Route::get("/shop/detail/{id}", [
-        LandingController::class,
-        "detailProduk",
-    ])->name("shop.detail");
-
-    Route::get("/all-products", [
-        \App\Http\Controllers\Landing\AllProductController::class,
-        "index",
-    ])->name("landing.products");
     
-    // Route cart
+    // Route cart - memerlukan login
     Route::get("/cart", [CartController::class, "index"])->name("landing.cart");
     Route::post("/cart/add", [CartController::class, "addToCart"])->name(
         "landing.cart.add",
@@ -166,7 +167,7 @@ Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only'])->g
         "updateQuantities",
     ])->name("landing.cart.updateQuantities");
 
-    // Route checkout
+    // Route checkout - memerlukan login
     Route::get("/checkout", [CheckoutController::class, "index"])->name(
         "landing.checkout",
     );
@@ -191,16 +192,19 @@ Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only'])->g
 
 Route::get("/login", [AuthController::class, "index"])->name("login");
 Route::post("/logout", [AuthController::class, "logout"])->name("logout");
+Route::get("/logout", function() {
+    return redirect()->route('login');
+});
 Route::post("/authenticate", [AuthController::class, "authenticate"])->name(
     "authenticate",
 );
 
 Route::prefix("/admin")
-    ->middleware(["auth", "admin.only"])
+    ->middleware(["auth", "admin.only", "role.redirect"])
     ->group(function () {
         // Dashboard
         Route::get("dashboard", [DashboardController::class, "index"])->name(
-            "dashboard",
+            "admin.dashboard",
         );
 
         // Profile

@@ -2,7 +2,7 @@
     <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
         <ul class="childNav" data-parent="promosi">
             <li class="nav-item">
-                <a class="{{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                <a class="{{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                     <i class="nav-icon cil-home"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>

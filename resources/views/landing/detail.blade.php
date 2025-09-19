@@ -40,15 +40,36 @@
 
                         <!-- Form Add to Cart -->
                         @if($data->stok > 0)
-                            <form action="{{ route('landing.cart.add') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="produk_id" value="{{ $data->id }}">
+                            @auth
+                                <form action="{{ route('landing.cart.add') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="produk_id" value="{{ $data->id }}">
 
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-12">
+                                            <div class="form-group quantity">
+                                                <label for="jumlah">Quantity</label>
+                                                <input class="form-control" type="number" name="jumlah" value="1" min="1" max="{{ $data->stok }}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bottom-content">
+                                        <div class="row align-items-end">
+                                            <div class="col-lg-4 col-md-4 col-12">
+                                                <div class="button cart-button">
+                                                    <button type="submit" class="btn" style="width: 100%; background-color: orange;"><i class="lni lni-cart"></i> Add to Cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            @else
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="form-group quantity">
                                             <label for="jumlah">Quantity</label>
-                                            <input class="form-control" type="number" name="jumlah" value="1" min="1" max="{{ $data->stok }}" required>
+                                            <input class="form-control" type="number" value="1" min="1" max="{{ $data->stok }}" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -57,12 +78,12 @@
                                     <div class="row align-items-end">
                                         <div class="col-lg-4 col-md-4 col-12">
                                             <div class="button cart-button">
-                                                <button type="submit" class="btn" style="width: 100%; background-color: orange;"><i class="lni lni-cart"></i> Add to Cart</button>
+                                                <a href="{{ route('landing.login') }}" class="btn" style="width: 100%; background-color: orange; text-decoration: none; color: white; display: inline-block; text-align: center;"><i class="lni lni-lock"></i> Login untuk Add to Cart</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            @endauth
                         @else
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-12">
