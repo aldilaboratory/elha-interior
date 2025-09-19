@@ -108,34 +108,7 @@
 
     @yield('content')
 
-    <section class="banner section">
-        <div class="container">
-            <div class="row">
-                @php
-                use App\Models\FooterPromosi;
-                $footerBanners = FooterPromosi::all();
-                @endphp
-
-                @foreach($footerBanners as $key => $banner)
-                <div class="col-lg-6 col-md-6 col-12 {{ $key == 1 ? 'custom-responsive-margin' : '' }}">
-                    <div class="single-banner"
-                        style="background-image:url('{{ asset('upload/footerpromosi/'.$banner->image) }}');">
-                        <div class="content">
-                            <h2 style="color: orange">{{ $banner->nama }}</h2>
-                            <p style="color: #333">{!! $banner->deskripsi !!}</p>
-                            <div class="button">
-                                <a href="{{url('/landing/shop/detail/'. $banner->produk_id)}}" class="btn" style="background-color: orange">
-                                    Beli Sekarang
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    <!-- End Banner Area -->
+    <!-- Footer Banner Section Removed -->
 
     <!-- Start Shipping Info -->
     {{-- <section class="shipping-info">

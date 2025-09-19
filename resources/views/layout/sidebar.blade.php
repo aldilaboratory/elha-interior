@@ -49,6 +49,21 @@
             </li>
         </ul>
 
+        <ul class="childNav" data-parent="transaksi">
+            <li class="nav-item">
+                <a class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}" href="{{ route('transaksi.index') }}">
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    <span class="item-name">Transaksi</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ request()->routeIs('transaksi_detail.*') ? 'active' : '' }}" href="{{ route('transaksi_detail.index') }}">
+                    <i class="nav-icon fas fa-list-alt"></i>
+                    <span class="item-name">Transaksi Detail</span>
+                </a>
+            </li>
+        </ul>
+
         <ul class="childNav" data-parent="master">
             <li class="nav-item">
                 <a class="{{ request()->routeIs('produk.*') ? 'active' : '' }}" href="{{ route('produk.index') }}">

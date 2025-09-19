@@ -81,7 +81,38 @@ class LandingController extends Controller
                 ->get();
         }
 
-        return view('landing.pesanan_saya', compact('orders'));
+        // Ambil kategori dari produk yang ada di cart user saat ini
+        $cartCategories = DB::table('keranjang')
+            ->join('produk', 'keranjang.produk_id', '=', 'produk.id')
+            ->where('keranjang.user_id', Auth::id())
+            ->pluck('produk.kategori_id')
+            ->unique()
+            ->toArray();
+
+        // Jika tidak ada cart, ambil kategori dari pesanan terakhir
+        if (empty($cartCategories) && !$orders->isEmpty()) {
+            $lastOrderProductIds = $orders->first()->orderItems->pluck('produk_id')->toArray();
+            $cartCategories = DB::table('produk')
+                ->whereIn('id', $lastOrderProductIds)
+                ->pluck('kategori_id')
+                ->unique()
+                ->toArray();
+        }
+
+        // Ambil produk rekomendasi berdasarkan kategori yang sama
+        $recommendedProducts = collect();
+        if (!empty($cartCategories)) {
+            $recommendedProducts = DB::table('produk')
+                ->join('kategori', 'produk.kategori_id', '=', 'kategori.id')
+                ->select('produk.*', 'kategori.nama as kategori_nama')
+                ->whereIn('produk.kategori_id', $cartCategories)
+                ->where('produk.stok', '>', 0)
+                ->inRandomOrder()
+                ->limit(8)
+                ->get();
+        }
+
+        return view('landing.pesanan_saya', compact('orders', 'recommendedProducts'));
     }
     public function terima($id)
     {

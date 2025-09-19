@@ -173,6 +173,11 @@ Route::prefix("/landing")->group(function () {
             "changeStatus",
         ])->name("landing.payment.changestatus");
     });
+    
+    // Route untuk testing halaman payment
+    Route::get("/payment", [CheckoutController::class, "payment"])->name(
+        "landing.payment",
+    );
 });
 
 Route::get("/login", [AuthController::class, "index"])->name("login");

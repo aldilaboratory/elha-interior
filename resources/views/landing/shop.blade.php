@@ -131,7 +131,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>Trending Product</h2>
+                    <h2>Produk Lainnya Dari Kami</h2>
                 </div>
             </div>
         </div>

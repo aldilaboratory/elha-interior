@@ -312,4 +312,20 @@ class CheckoutController extends Controller
             'data'    => $transaksi
         ]);
     }
+
+    public function payment()
+    {
+        // Method untuk testing halaman payment dengan data dummy
+        $snapToken = 'dummy-snap-token-for-testing';
+        $orderId = 'ORDER-' . time();
+        $total = 150000; // Dummy total
+        $transaksi_id = 1; // Dummy transaksi ID
+
+        return view('landing.payment', [
+            'snapToken' => $snapToken,
+            'orderId'   => $orderId,
+            'total'     => $total,
+            'transaksi_id' => $transaksi_id
+        ]);
+    }
 }
