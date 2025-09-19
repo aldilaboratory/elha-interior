@@ -17,7 +17,7 @@ use Midtrans\Snap;
 
 class CheckoutController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (!Auth::check()) {
             return redirect()->route('landing.login');
@@ -25,17 +25,42 @@ class CheckoutController extends Controller
 
         $user = Auth::user();
 
-        $cartItems = DB::table('keranjang')
-            ->join('produk', 'keranjang.produk_id', '=', 'produk.id')
-            ->where('keranjang.user_id', $user->id)
-            ->select(
-                'keranjang.*',
-                'produk.nama as produk_nama',
-                'produk.deskripsi as produk_deskripsi',
-                'produk.harga as produk_harga',
-                'produk.image as produk_image'
-            )
-            ->get();
+        // Jika ada data POST dari cart (qty yang sudah diubah)
+        if ($request->isMethod('post') && $request->has('qty')) {
+            $cartItems = collect();
+            $qtys = $request->input('qty');
+            $produk_ids = $request->input('produk_id');
+            $produk_namas = $request->input('produk_nama');
+            $produk_hargas = $request->input('produk_harga');
+            $produk_images = $request->input('produk_image');
+
+            foreach ($qtys as $cart_id => $qty) {
+                if ($qty > 0) {
+                    $cartItems->push((object)[
+                        'id' => $cart_id,
+                        'produk_id' => $produk_ids[$cart_id],
+                        'produk_nama' => $produk_namas[$cart_id],
+                        'produk_harga' => $produk_hargas[$cart_id],
+                        'produk_image' => $produk_images[$cart_id],
+                        'jumlah' => $qty,
+                    ]);
+                }
+            }
+        } else {
+            // Jika GET request, ambil dari database seperti biasa
+            $cartItems = DB::table('keranjang')
+                ->join('produk', 'keranjang.produk_id', '=', 'produk.id')
+                ->where('keranjang.user_id', $user->id)
+                ->select(
+                    'keranjang.*',
+                    'produk.nama as produk_nama',
+                    'produk.deskripsi as produk_deskripsi',
+                    'produk.harga as produk_harga',
+                    'produk.image as produk_image'
+                )
+                ->get();
+        }
+
         $total = $cartItems->sum(function ($item) {
             return $item->produk_harga * $item->jumlah;
         });
@@ -62,16 +87,37 @@ class CheckoutController extends Controller
             'ongkir' => 'required|numeric',
             'total' => 'required|numeric',
             'payment_method' => 'required|string',
+            // Validasi data cart jika ada
+            'cart_data' => 'nullable|array',
+            'cart_data.*.produk_id' => 'required_with:cart_data|exists:produk,id',
+            'cart_data.*.produk_nama' => 'required_with:cart_data|string',
+            'cart_data.*.produk_harga' => 'required_with:cart_data|numeric',
+            'cart_data.*.jumlah' => 'required_with:cart_data|integer|min:1',
         ]);
 
-        // 2. Ambil cart user
-        $cartItems = Keranjang::where('user_id', Auth::id())->join('produk', 'keranjang.produk_id', '=', 'produk.id')->select(
-            'keranjang.*',
-            'produk.nama as produk_nama',
-            'produk.deskripsi as produk_deskripsi',
-            'produk.harga as produk_harga',
-            'produk.image as produk_image'
-        )->get();
+        // 2. Ambil cart user - gunakan data yang di-pass jika ada, atau ambil dari database
+        if ($request->has('cart_data') && !empty($request->cart_data)) {
+            // Gunakan data cart yang di-pass dari checkout form
+            $cartItems = collect();
+            foreach ($request->cart_data as $item) {
+                $cartItems->push((object)[
+                    'produk_id' => $item['produk_id'],
+                    'produk_nama' => $item['produk_nama'],
+                    'produk_harga' => $item['produk_harga'],
+                    'produk_image' => $item['produk_image'] ?? '',
+                    'jumlah' => $item['jumlah'],
+                ]);
+            }
+        } else {
+            // Fallback: ambil dari database seperti biasa
+            $cartItems = Keranjang::where('user_id', Auth::id())->join('produk', 'keranjang.produk_id', '=', 'produk.id')->select(
+                'keranjang.*',
+                'produk.nama as produk_nama',
+                'produk.deskripsi as produk_deskripsi',
+                'produk.harga as produk_harga',
+                'produk.image as produk_image'
+            )->get();
+        }
 
         if ($cartItems->isEmpty()) {
             return redirect()->back()->with('error', 'Keranjang kosong.');

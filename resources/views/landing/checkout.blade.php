@@ -11,6 +11,15 @@
                 <form action="{{ route('landing.checkout.process') }}" method="POST">
                     @csrf
 
+                    {{-- Hidden inputs untuk data cart --}}
+                    @foreach($cartItems as $index => $item)
+                        <input type="hidden" name="cart_data[{{ $index }}][produk_id]" value="{{ $item->produk_id }}">
+                        <input type="hidden" name="cart_data[{{ $index }}][produk_nama]" value="{{ $item->produk_nama }}">
+                        <input type="hidden" name="cart_data[{{ $index }}][produk_harga]" value="{{ $item->produk_harga }}">
+                        <input type="hidden" name="cart_data[{{ $index }}][produk_image]" value="{{ $item->produk_image ?? '' }}">
+                        <input type="hidden" name="cart_data[{{ $index }}][jumlah]" value="{{ $item->jumlah }}">
+                    @endforeach
+
                     {{-- Pilih alamat dari profil atau input manual --}}
                     <div class="mb-3">
                         <label class="form-label">Pilih Alamat Pengiriman</label>
@@ -102,9 +111,17 @@
                         <h5>Ringkasan Belanja</h5>
                         <ul class="list-group list-group-flush mt-3">
                             @foreach($cartItems as $item)
-                                <li class="list-group-item d-flex justify-content-between">
-                                    {{ $item->produk_nama }} x{{ $item->jumlah }}
-                                    <span>Rp {{ number_format($item->produk_harga * $item->jumlah) }}</span>
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <strong>{{ $item->produk_nama }}</strong><br>
+                                            <small class="text-muted">Unit Price: Rp {{ number_format($item->produk_harga) }}</small><br>
+                                            <small class="text-muted">Qty: {{ $item->jumlah }}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <strong>Rp {{ number_format($item->produk_harga * $item->jumlah) }}</strong>
+                                        </div>
+                                    </div>
                                 </li>
                             @endforeach
                             <li class="list-group-item d-flex justify-content-between">

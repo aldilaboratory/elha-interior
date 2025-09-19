@@ -161,8 +161,11 @@ Route::prefix("/landing")->group(function () {
     Route::get("/checkout", [CheckoutController::class, "index"])->name(
         "landing.checkout",
     );
+    Route::post("/checkout", [CheckoutController::class, "index"])->name(
+        "landing.checkout.post",
+    );
     Route::prefix("/checkout")->group(function () {
-        Route::post("/", [CheckoutController::class, "process"])->name(
+        Route::post("/process", [CheckoutController::class, "process"])->name(
             "landing.checkout.process",
         );
         Route::post("/payment/status", [

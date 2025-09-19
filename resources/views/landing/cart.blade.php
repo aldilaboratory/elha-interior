@@ -22,7 +22,8 @@
     @endif
 
     {{-- Form Checkout --}}
-    <form id="cart-form" action="{{ route('landing.checkout') }}" method="GET">
+    <form id="cart-form" action="{{ route('landing.checkout.post') }}" method="POST">
+        @csrf
         <div class="table-responsive mt-4">
             <table class="table align-middle">
                 <thead class="table-light">
@@ -45,6 +46,11 @@
                                 <input type="number" name="qty[{{ $item->id }}]" class="form-control form-control-sm text-center qty-input" value="{{ $item->jumlah }}" min="1" max="99" data-original-qty="{{ $item->jumlah }}">
                                 <button type="button" class="btn btn-outline-secondary btn-sm qty-btn" data-action="increase">+</button>
                             </div>
+                            {{-- Hidden inputs untuk data produk --}}
+                            <input type="hidden" name="produk_id[{{ $item->id }}]" value="{{ $item->produk_id }}">
+                            <input type="hidden" name="produk_nama[{{ $item->id }}]" value="{{ $item->produk_nama }}">
+                            <input type="hidden" name="produk_harga[{{ $item->id }}]" value="{{ $item->produk_harga }}">
+                            <input type="hidden" name="produk_image[{{ $item->id }}]" value="{{ $item->produk_image }}">
                         </td>
                         <td class="item-total">Rp {{ number_format($item->produk_harga * $item->jumlah) }}</td>
                         <td>
