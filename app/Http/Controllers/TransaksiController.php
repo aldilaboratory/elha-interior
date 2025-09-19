@@ -72,26 +72,50 @@ class TransaksiController extends Controller
 
     public function fetch(Request $request)
     {
-        $transaksi = DB::table('transaksi')
+        $transaksiDetail = DB::table('transaksi_detail')
+            ->join('transaksi', 'transaksi.id', '=', 'transaksi_detail.transaksi_id')
             ->join('user', 'user.id', '=', 'transaksi.user_id')
-            ->join('transaksi_detail', 'transaksi_detail.transaksi_id', '=', 'transaksi.id')
-            ->join('produk', 'produk.id', '=', 'transaksi_detail.produk_id')
+            ->leftJoin('produk', 'produk.id', '=', 'transaksi_detail.produk_id')
             ->select(
-                'transaksi.id',
-                'transaksi.ongkir as ongkir',
+                'transaksi_detail.id as detail_id',
+                'transaksi.id as transaksi_id',
                 'transaksi.nama_penerima as nama_penerima',
                 'transaksi.status as status',
                 'transaksi.total as total',
                 'transaksi.paket_estimasi as estimasi',
-                'transaksi.resi as resi',
+                DB::raw('COALESCE(transaksi.resi, "-") as resi'),
                 'user.name as nama_user',
-                DB::raw('GROUP_CONCAT(produk.nama SEPARATOR ", ") as daftar_produk'),
+                DB::raw('COALESCE(produk.nama, transaksi_detail.nama_produk) as nama_produk'),
+                'transaksi_detail.gambar_produk as gambar_produk',
+                'transaksi_detail.jumlah as qty',
+                'transaksi_detail.harga as harga',
+                'transaksi_detail.subtotal as subtotal',
                 'transaksi.created_at'
             )
-            ->groupBy('transaksi.id', 'transaksi.ongkir', 'transaksi.status', 'transaksi.total', 'nama_penerima' ,'transaksi.paket_estimasi', 'transaksi.resi', 'user.name', 'transaksi.created_at');
+            ->orderBy('transaksi.id', 'desc')
+            ->orderBy('transaksi_detail.id', 'asc');
 
-        return DataTables::of($transaksi)
+        return DataTables::of($transaksiDetail)
             ->addIndexColumn()
+            ->addColumn('gambar_produk', function($row) {
+                if ($row->gambar_produk) {
+                    return '<img src="' . asset('upload/produk/' . $row->gambar_produk) . '" alt="' . $row->nama_produk . '" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">';
+                }
+                return '<div style="width: 50px; height: 50px; background-color: #f8f9fa; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #6c757d;">No Image</div>';
+            })
+            ->addColumn('aksi', function($row) {
+                return '
+                    <div class="btn-group" role="group">
+                        <a href="' . route('transaksi.edit', $row->transaksi_id) . '" class="btn btn-warning btn-sm">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="deleteData(' . $row->transaksi_id . ')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                ';
+            })
+            ->rawColumns(['gambar_produk', 'aksi'])
             ->make(true);
     }
 

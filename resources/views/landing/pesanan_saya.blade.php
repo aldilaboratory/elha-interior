@@ -178,12 +178,15 @@
                                 <div class="col-md-6 text-md-end mt-2 mt-md-0">
                                     <span class="badge status-badge
                                         @if($order->status == 'pending') bg-warning text-dark
+                                        @elseif($order->status == 'paid') bg-primary text-white
                                         @elseif($order->status == 'dikirim') bg-info text-white
                                         @elseif($order->status == 'selesai') bg-success text-white
                                         @else bg-secondary text-white
                                         @endif">
                                         @if($order->status == 'pending')
                                             <i class="fas fa-clock me-1"></i>Menunggu Konfirmasi
+                                        @elseif($order->status == 'paid')
+                                            <i class="fas fa-credit-card me-1"></i>Paid - Menunggu Konfirmasi
                                         @elseif($order->status == 'dikirim')
                                             <i class="fas fa-truck me-1"></i>Sedang Dikirim
                                         @elseif($order->status == 'selesai')
@@ -266,26 +269,28 @@
                                 <div class="col-12">
                                     {{-- <div class="d-flex flex-wrap gap-2 text-end"> --}}
                                     <div class="text-end">
-                                        @if($order->status != 'selesai')
-                                            <form action="{{ route('pesanan.terima', $order->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin sudah menerima pesanan ini?')">
-                                                @csrf
-                                                @method('PUT')
-                                                <input type="hidden" name="transaksi_id" value="{{ $order->id }}">
-                                                <button type="submit" class="btn btn-success btn-modern">
-                                                    <i class="fas fa-check me-2"></i>Terima Pesanan
-                                                </button>
-                                            </form>
-                                        @else
-                                            <span class="text-success fw-bold">
-                                                <i class="fas fa-check-circle me-1"></i>Pesanan Diterima
-                                            </span>
+                                        @if($order->status != 'pending' && $order->status != 'paid')
+                                            @if($order->status != 'selesai')
+                                                <form action="{{ route('pesanan.terima', $order->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin sudah menerima pesanan ini?')">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="transaksi_id" value="{{ $order->id }}">
+                                                    <button type="submit" class="btn btn-success btn-modern">
+                                                        <i class="fas fa-check me-2"></i>Terima Pesanan
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <span class="text-success fw-bold">
+                                                    <i class="fas fa-check-circle me-1"></i>Pesanan Diterima
+                                                </span>
+                                            @endif
+                                            
+                                            <a href="{{ route('pesanan.print', $order->id) }}" target="_blank" class="btn btn-outline-primary btn-modern">
+                                                <i class="fas fa-print me-2"></i>Cetak Nota
+                                            </a>
                                         @endif
                                         
-                                        <a href="{{ route('pesanan.print', $order->id) }}" target="_blank" class="btn btn-outline-primary btn-modern">
-                                            <i class="fas fa-print me-2"></i>Cetak Nota
-                                        </a>
-                                        
-                                        @if($order->status == 'pending')
+                                        @if($order->status == 'pending' || $order->status == 'paid')
                                             <button class="btn btn-outline-danger btn-modern" onclick="cancelOrder({{ $order->id }})">
                                                 <i class="fas fa-times me-2"></i>Batalkan
                                             </button>

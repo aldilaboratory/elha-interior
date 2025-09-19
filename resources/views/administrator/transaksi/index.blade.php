@@ -29,11 +29,17 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">ID Transaksi</th>
                 <th scope="col">Pelanggan</th>
-                <th scope="col">Estimasi</th>
-                <th scope="col">Total Harga</th>
+                <th scope="col">Gambar Produk</th>
+                <th scope="col">Nama Produk</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Harga Satuan</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Total Transaksi</th>
                 <th scope="col">Status</th>
                 <th scope="col">Resi</th>
+                <th scope="col">Estimasi</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Aksi</th>
             </tr>
@@ -77,7 +83,12 @@
                 searchable: false,
                 orderable: false,
             },
-
+            {
+                data: 'transaksi_id',
+                searchable: true,
+                orderable: true,
+                visible: true,
+            },
             {
                 data: 'nama_penerima',
                 searchable: true,
@@ -85,10 +96,49 @@
                 visible: true,
             },
             {
-                data: 'estimasi',
+                data: 'gambar_produk',
+                searchable: false,
+                orderable: false,
+                visible: true,
+            },
+            {
+                data: 'nama_produk',
+                searchable: true,
+                orderable: true,
+                visible: true,
+            },
+            {
+                data: 'qty',
                 searchable: false,
                 orderable: true,
                 visible: true,
+                render: function(data, type, row) {
+                    return data + ' pcs';
+                }
+            },
+            {
+                data: 'harga',
+                searchable: false,
+                orderable: true,
+                visible: true,
+                render: function(data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        return 'Rp ' + parseInt(data).toLocaleString('id-ID');
+                    }
+                    return data;
+                }
+            },
+            {
+                data: 'subtotal',
+                searchable: false,
+                orderable: true,
+                visible: true,
+                render: function(data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        return 'Rp ' + parseInt(data).toLocaleString('id-ID');
+                    }
+                    return data;
+                }
             },
             {
                 data: 'total',
@@ -134,6 +184,11 @@
                         return '<span class="text-muted">-</span>';
                     }
                 }
+            }, {
+                data: 'estimasi',
+                searchable: false,
+                orderable: true,
+                visible: true,
             }, {
                 data: 'created_at',
                 render: function(data) {

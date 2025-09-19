@@ -3,7 +3,7 @@
 <style>
     /* Background dengan gradient yang menarik */
     .payment-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
         min-height: 100vh;
         padding: 2rem 0;
         position: relative;
@@ -39,7 +39,7 @@
 
     /* Header dengan gradient orange */
     .payment-header {
-        background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+        border-bottom: 1px solid rgb(218, 218, 218);
         padding: 2rem;
         position: relative;
         overflow: hidden;
@@ -86,7 +86,7 @@
 
     /* Total amount dengan styling yang lebih menarik */
     .total-amount {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        /* background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); */
         border-radius: 16px;
         padding: 2rem;
         margin: 2rem 0;
@@ -102,8 +102,8 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
-        animation: slide 2s infinite;
+        /* background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent); */
+        /* animation: slide 2s infinite; */
     }
 
     @keyframes slide {
@@ -125,14 +125,14 @@
 
     /* Button dengan efek yang lebih menarik */
     .btn-payment {
-        background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+        background: #ff6b35;
         border: none;
         border-radius: 16px;
         padding: 1.2rem 2rem;
         font-size: 1.1rem;
         font-weight: 600;
         letter-spacing: 0.5px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
         position: relative;
         overflow: hidden;
         box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
@@ -145,7 +145,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); */
         transition: left 0.5s;
     }
 
@@ -231,7 +231,7 @@
     @media (max-width: 768px) {
         .payment-container {
             padding: 1rem 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
         }
         
         .payment-card {
@@ -482,7 +482,7 @@
             <div class="col-lg-6 col-md-8">
                 <div class="payment-card">
                     <div class="payment-header text-center text-white">
-                        <h4 class="mb-0">💳 Pembayaran Aman</h4>
+                        <h4 class="mb-0">Pembayaran</h4>
                     </div>
                     
                     <div class="p-4">
@@ -495,10 +495,10 @@
                             <h2>Rp {{ number_format($total, 0, ',', '.') }}</h2>
                         </div>
 
-                        <div class="security-info text-center mb-4">
+                        {{-- <div class="security-info text-center mb-4">
                             <i class="fas fa-shield-alt me-2" style="color: #ff6b35;"></i>
                             <small>Pembayaran aman dengan Midtrans</small>
-                        </div>
+                        </div> --}}
 
                         <div class="text-center">
                             <button id="pay-button" class="btn btn-payment w-100 text-white">
@@ -517,25 +517,13 @@
                         </div>
                     </div>
                     
-                    <div class="payment-methods text-center">
+                    {{-- <div class="payment-methods text-center">
                         <small class="text-muted d-block mb-3">Metode Pembayaran Tersedia:</small>
                         <div>
-                            <img src="https://cdn.jsdelivr.net/gh/midtrans/midtrans-nodejs/examples/public/assets/midtrans-logo.png"
+                            <img src="http://elhainterior.test/assets/images/metode_pembayaran.svg"
                                 alt="Midtrans" height="20" class="method-icon me-2">
-                            <span class="method-icon">
-                                <i class="fab fa-cc-visa" style="color: #ff6b35;"></i>
-                            </span>
-                            <span class="method-icon">
-                                <i class="fab fa-cc-mastercard" style="color: #ff6b35;"></i>
-                            </span>
-                            <span class="method-icon">
-                                <i class="fas fa-university" style="color: #ff6b35;"></i>
-                            </span>
-                            <span class="method-icon">
-                                <i class="fas fa-wallet" style="color: #ff6b35;"></i>
-                            </span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -564,7 +552,7 @@
                 </div>
                 
                 <div class="d-grid gap-3">
-                    <a href="{{ route('landing.pesanan_saya') }}" class="btn btn-payment text-white">
+                    <a href="{{ route('landing.pesanan') }}" class="btn btn-payment text-white">
                         <i class="fas fa-list me-2"></i>
                         Lihat Pesanan Saya
                     </a>
