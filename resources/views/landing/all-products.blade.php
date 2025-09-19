@@ -122,7 +122,7 @@
         }
 
         .view-toggle .btn.active {
-            background: #007bff;
+            background: orange;
             color: #fff;
             border-color: #007bff;
         }
@@ -182,9 +182,9 @@
 
                         <!-- All Categories -->
                         <div class="filter-group">
-                            <h5>All Categories</h5>
+                            <h5>Semua Kategori</h5>
                             <ul class="category-list">
-                                <li><a href="{{ url()->current() }}">All Products <span class="category-count">{{ $totalProducts }}</span></a></li>
+                                <li><a href="{{ url()->current() }}">Semua Produk <span class="category-count">{{ $totalProducts }}</span></a></li>
                                 @foreach($categories as $category)
                                     <li>
                                         <a href="{{ url()->current() }}?category={{ $category->id }}"
@@ -199,7 +199,7 @@
 
                         <!-- Price Range -->
                         <div class="filter-group">
-                            <h5>Price Range</h5>
+                            <h5>Rentang Harga</h5>
                             <form action="{{ url()->current() }}" method="GET" id="priceFilterForm">
                                 @if(request('search'))
                                     <input type="hidden" name="search" value="{{ request('search') }}">
@@ -266,14 +266,14 @@
                                 @if(request('max_price'))
                                     <input type="hidden" name="max_price" value="{{ request('max_price') }}">
                                 @endif
-                                <label class="me-2" style="font-size: 14px;">Sort by:</label>
+                                <label class="me-2" style="font-size: 14px;">Urutkan:</label>
                                 <select name="sort" class="form-select form-select-sm" onchange="this.form.submit()" style="width: 150px;">
                                     <option value="" {{ request('sort') == '' ? 'selected' : '' }}>Default</option>
-                                    <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                                    <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
-                                    <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
-                                    <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
-                                    <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
+                                    <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Termurah ke Termahal</option>
+                                    <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Termahal ke Termurah</option>
+                                    <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>A ke Z</option>
+                                    <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Z ke A</option>
+                                    <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Terbaru</option>
                                 </select>
                             </form>
                         </div>
@@ -282,12 +282,12 @@
                     <!-- Products Grid -->
                     <div class="row" id="productsContainer">
                         @forelse ($data as $key => $value)
-                            <div class="col-lg-4 col-md-6 col-12 mb-4 product-item">
+                            <div class="col-lg-3 col-md-6 col-12 mb-4">
                                 <!-- Start Single Product -->
                                 <div class="single-product">
-                                    <div class="product-image" style="position: relative;">
+                                    <div class="product-image" style="position: relative; max-height: 185px;">
                                         <a href="{{ url('/landing/shop/detail/' . $value->id) }}">
-                                            <img src="{{ asset('upload/produk/' . $value->image) }}" alt="{{ $value->nama }}" style="width: 100%; height: 200px; object-fit: cover; cursor: pointer;">
+                                            <img src="{{ asset('upload/produk/' . $value->image) }}" alt="{{ $value->nama }}" style="width: 100%; object-fit: cover; cursor: pointer;">
                                         </a>
                                         @if($value->is_sale ?? false)
                                             <span class="sale-tag">Sale</span>
@@ -306,18 +306,21 @@
                                         <h4 class="title">
                                             <a href="{{ url('/landing/shop/detail/' . $value->id) }}">{{ $value->nama }}</a>
                                         </h4>
-                                        <div class="price" style="color: orange; font-weight: bold;">
-                                            <span>Rp{{ number_format($value->harga, 0, ',', '.') }}</span>
+                                        <div class="price">
+                                            <span style="color: black; font-weight: bold;">Rp{{ number_format($value->harga, 0, ',', '.') }}</span>
                                         </div>
                                         <!-- Tombol Add to Cart -->
                                         <div class="text-center mt-3">
                                             @if($value->stok > 0)
-                                                <button class="btn btn-primary add-to-cart-btn" 
-                                                        data-product-id="{{ $value->id }}" 
-                                                        data-product-name="{{ $value->nama }}"
-                                                        style="width: 100%; background-color: #007bff; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
-                                                    <i class="lni lni-cart"></i> Add to Cart
-                                                </button>
+                                                <form action="{{ route('landing.cart.add') }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="produk_id" value="{{ $value->id }}">
+                                                    <input type="hidden" name="jumlah" value="1">
+                                                    <button type="submit" class="btn btn-primary" 
+                                                            style="width: 100%; background-color: orange; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
+                                                        <i class="lni lni-cart"></i> Add to Cart
+                                                    </button>
+                                                </form>
                                             @else
                                                 <button class="btn btn-secondary" disabled style="width: 100%; padding: 8px 16px; border-radius: 5px;">
                                                     <i class="lni lni-ban"></i> Stok Habis
@@ -331,8 +334,8 @@
                         @empty
                             <div class="col-12">
                                 <div class="text-center py-5">
-                                    <h5>No products found</h5>
-                                    <p>Try adjusting your search or filter criteria.</p>
+                                    <h5>Tidak ada profuk ditemukan</h5>
+                                    <p>Coba ubah kriteria pencarianmu</p>
                                 </div>
                             </div>
                         @endforelse
@@ -393,60 +396,7 @@
                 });
             });
 
-            // Add to Cart Functionality
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Simpan posisi scroll saat ini
-                    const currentScrollPosition = window.pageYOffset;
-                    
-                    const productId = this.getAttribute('data-product-id');
-                    const productName = this.getAttribute('data-product-name');
-                    
-                    // Disable button sementara
-                    this.disabled = true;
-                    this.innerHTML = '<i class="lni lni-spinner"></i> Adding...';
-                    
-                    // Simulasi AJAX request (ganti dengan endpoint yang sesuai)
-                    fetch('/add-to-cart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            product_id: productId,
-                            quantity: 1
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Restore button
-                        this.disabled = false;
-                        this.innerHTML = '<i class="lni lni-cart"></i> Add to Cart';
-                        
-                        // Show success alert
-                        alert(`${productName} berhasil ditambahkan ke keranjang!`);
-                        
-                        // Maintain scroll position
-                        window.scrollTo(0, currentScrollPosition);
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        
-                        // Restore button
-                        this.disabled = false;
-                        this.innerHTML = '<i class="lni lni-cart"></i> Add to Cart';
-                        
-                        // Show success alert (untuk demo, karena endpoint mungkin belum ada)
-                        alert(`${productName} berhasil ditambahkan ke keranjang!`);
-                        
-                        // Maintain scroll position
-                        window.scrollTo(0, currentScrollPosition);
-                    });
-                });
-            });
+            // Add to cart functionality now handled by form submission
         });
     </script>
 @endsection

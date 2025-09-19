@@ -106,12 +106,6 @@
     @endphp
 
 
-    @if($alamat < 1)
-    <div class="w-75 mt-5 mx-auto mx-5 alert alert-info text-center">
-        Anda Belum Membuat Satupun Alamat Pengiriman Pergi Dan Klik Untuk Menambahkanya. <span><a href="{{ route('alamat.index') }}">Disini!!!</a></span>
-    </div>
-    @endif
-
     @yield('content')
 
     <section class="banner section">
@@ -127,11 +121,11 @@
                     <div class="single-banner"
                         style="background-image:url('{{ asset('upload/footerpromosi/'.$banner->image) }}');">
                         <div class="content">
-                            <h2 class='text-light'>{{ $banner->nama }}</h2>
-                            <p class='text-light'>{!! $banner->deskripsi !!}</p>
+                            <h2 style="color: orange">{{ $banner->nama }}</h2>
+                            <p style="color: #333">{!! $banner->deskripsi !!}</p>
                             <div class="button">
-                                <a href="{{url('/landing/shop/detail/'. $banner->produk_id)}}" class="btn">
-                                    Shop Now
+                                <a href="{{url('/landing/shop/detail/'. $banner->produk_id)}}" class="btn" style="background-color: orange">
+                                    Beli Sekarang
                                 </a>
                             </div>
                         </div>
@@ -144,7 +138,7 @@
     <!-- End Banner Area -->
 
     <!-- Start Shipping Info -->
-    <section class="shipping-info">
+    {{-- <section class="shipping-info">
         <div class="container">
             <ul>
                 <!-- Free Shipping -->
@@ -189,7 +183,7 @@
                 </li>
             </ul>
         </div>
-    </section>
+    </section> --}}
     <!-- End Shipping Info -->
 
     <!-- Start Footer Area -->

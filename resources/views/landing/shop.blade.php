@@ -95,8 +95,9 @@
                 <div class="hero-small-banner"
                     style="background-image: url({{asset('upload/produkbarupromosi/'.$produkBaruPromosi->image)}});
                            min-height: 250px;
-                           background-position: center;
-                           object-fit: cover;">
+                           background-position: center center;
+                           background-size: cover;
+                           background-repeat: no-repeat;">
                     <div class="content">
                         <h2 class="mb-2" style="color: orange;">
                             {{$produkBaruPromosi->nama}}
@@ -110,8 +111,9 @@
                 <div class="hero-small-banner" 
                     style="background-image: url({{asset('upload/infopromosi/'.$infoPromosi->image)}});
                            min-height: 250px;
-                           background-position: center;
-                           object-fit: cover;">
+                           background-position: center center;
+                           background-size: cover;
+                           background-repeat: no-repeat;">
                     <div class="content">
                         <h2 class="mb-2" style="color: orange;">{{$infoPromosi->nama}}</h2>
                         <p class="text-dark">{{$infoPromosi->deskripsi}}</p>
@@ -164,12 +166,15 @@
                         <!-- Tombol Add to Cart -->
                         <div class="text-center mt-3">
                             @if($value->stok > 0)
-                                <button class="btn btn-primary add-to-cart-btn" 
-                                        data-product-id="{{ $value->id }}" 
-                                        data-product-name="{{ $value->nama }}"
-                                        style="width: 100%; background-color: orange; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
-                                    <i class="lni lni-cart"></i> Add to Cart
-                                </button>
+                                <form action="{{ route('landing.cart.add') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="produk_id" value="{{ $value->id }}">
+                                    <input type="hidden" name="jumlah" value="1">
+                                    <button type="submit" class="btn btn-primary" 
+                                            style="width: 100%; background-color: orange; border: none; padding: 8px 16px; border-radius: 5px; color: white;">
+                                        <i class="lni lni-cart"></i> Add to Cart
+                                    </button>
+                                </form>
                             @else
                                 <button class="btn btn-secondary" disabled style="width: 100%; padding: 8px 16px; border-radius: 5px;">
                                     <i class="lni lni-ban"></i> Stok Habis
@@ -187,61 +192,6 @@
 
 @section('js')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add to Cart Functionality
-        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Simpan posisi scroll saat ini
-                const currentScrollPosition = window.pageYOffset;
-                
-                const productId = this.getAttribute('data-product-id');
-                const productName = this.getAttribute('data-product-name');
-                
-                // Disable button sementara
-                this.disabled = true;
-                this.innerHTML = '<i class="lni lni-spinner"></i> Adding...';
-                
-                // Simulasi AJAX request (ganti dengan endpoint yang sesuai)
-                fetch('/add-to-cart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        quantity: 1
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Restore button
-                    this.disabled = false;
-                    this.innerHTML = '<i class="lni lni-cart"></i> Add to Cart';
-                    
-                    // Show success alert
-                    alert(`${productName} berhasil ditambahkan ke keranjang!`);
-                    
-                    // Maintain scroll position
-                    window.scrollTo(0, currentScrollPosition);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    
-                    // Restore button
-                    this.disabled = false;
-                    this.innerHTML = '<i class="lni lni-cart"></i> Add to Cart';
-                    
-                    // Show success alert (untuk demo, karena endpoint mungkin belum ada)
-                    alert(`${productName} berhasil ditambahkan ke keranjang!`);
-                    
-                    // Maintain scroll position
-                    window.scrollTo(0, currentScrollPosition);
-                });
-            });
-        });
-    });
+    // Add to cart functionality now handled by form submission
 </script>
 @endsection

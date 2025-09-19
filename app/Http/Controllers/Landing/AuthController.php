@@ -65,7 +65,8 @@ class AuthController extends Controller
         return view('landing.registrasi');
     }
     public function setregistrasi(Request $request)
-    { {
+    {
+        try {
             // validasi input
             $validated = $request->validate([
                 'name'     => 'required|string|max:100',
@@ -86,8 +87,15 @@ class AuthController extends Controller
                 'created_at' => Carbon::now()
             ]);
 
-            // redirect ke halaman utama / dashboard
-            return redirect()->route('landing.login')->with('success', 'Registrasi berhasil, selamat datang!');
+            // redirect ke halaman login dengan sweetalert
+            return redirect()->route('landing.login')->with('sweetalert', [
+                'type' => 'success',
+                'title' => 'Registrasi Berhasil!',
+                'text' => 'Akun Anda telah berhasil dibuat. Silakan login untuk melanjutkan.',
+                'icon' => 'success'
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat registrasi: ' . $e->getMessage());
         }
     }
 }

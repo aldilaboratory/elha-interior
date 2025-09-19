@@ -88,7 +88,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('shop')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
+        return redirect()->route('landing.cart')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
     public function deleteCartItem($id)

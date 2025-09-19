@@ -5,44 +5,11 @@
 
 @section('content')
 <!-- Start Breadcrumbs -->
-<div class="breadcrumbs">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 col-md-6 col-12">
-                <div class="breadcrumbs-content">
-                    <h1 class="page-title">Single Product</h1>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-12">
-                <ul class="breadcrumb-nav">
-                    <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
-                    <li><a href="index.html">Shop</a></li>
-                    <li>Single Product</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- End Breadcrumbs -->
 
 <!-- Start Item Details -->
 <section class="item-details section">
     <div class="container">
-        {{-- Flash Messages --}}
-        @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-
-        @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-
         <div class="top-area">
             <div class="row align-items-center">
                 <!-- Gambar Produk -->
@@ -64,9 +31,9 @@
                         <h3 class="price">Rp{{ number_format($data->harga, 0, ',', '.') }}</h3>
                         <div class="stock-info mb-3">
                             @if($data->stok > 0)
-                                <span class="badge bg-success fs-6">Stok Tersedia: {{ $data->stok }}</span>
+                                <span>Ketersediaan: <span class="text-success">{{ $data->stok }}</span></span>
                             @else
-                                <span class="badge bg-danger fs-6">Stok Habis</span>
+                                <span>Ketersediaan: <span class="text-danger">Stok habis</span></span>
                             @endif
                         </div>
                         <p class="info-text">{{ $data->deskripsi }}</p>
@@ -90,7 +57,7 @@
                                     <div class="row align-items-end">
                                         <div class="col-lg-4 col-md-4 col-12">
                                             <div class="button cart-button">
-                                                <button type="submit" class="btn" style="width: 100%;">Add to Cart</button>
+                                                <button type="submit" class="btn" style="width: 100%; background-color: orange;"><i class="lni lni-cart"></i> Add to Cart</button>
                                             </div>
                                         </div>
                                     </div>
@@ -110,7 +77,7 @@
                                 <div class="row align-items-end">
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="button cart-button">
-                                            <button type="button" class="btn btn-secondary" style="width: 100%;" disabled>Stok Habis</button>
+                                            <button type="button" class="btn btn-secondary" style="width: 100%; background-color: orange;" disabled>Stok Habis</button>
                                         </div>
                                     </div>
                                 </div>
