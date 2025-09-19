@@ -61,27 +61,30 @@ use Illuminate\Support\Facades\Artisan;
 
 Route::get("/", function () {
     return redirect()->to(route("shop"));
+})->middleware('admin.restriction');
+
+Route::middleware('admin.restriction')->group(function () {
+    Route::get("/rajaongkir/provinsi", [
+        KomerceOngkirController::class,
+        "provinsi",
+    ])->name("rajaongkir.provinsi");
+    Route::get("/rajaongkir/kota/{provinsi_id}", [
+        KomerceOngkirController::class,
+        "kota",
+    ]);
+    Route::get("/rajaongkir/ongkir/{destination}/{courier}", [
+        KomerceOngkirController::class,
+        "ongkir",
+    ]);
 });
-Route::get("/rajaongkir/provinsi", [
-    KomerceOngkirController::class,
-    "provinsi",
-])->name("rajaongkir.provinsi");
-Route::get("/rajaongkir/kota/{provinsi_id}", [
-    KomerceOngkirController::class,
-    "kota",
-]);
-Route::get("/rajaongkir/ongkir/{destination}/{courier}", [
-    KomerceOngkirController::class,
-    "ongkir",
-]);
 
 // Route::get("/", [LandingController::class, "index"])->name("landing");
 
-Route::get('/pesanan/{id}/print', [\App\Http\Controllers\Landing\NotaPrintController::class, 'printNota'])->name('pesanan.print');
-Route::put('/pesanan/{id}/terima', [\App\Http\Controllers\Landing\NotaPrintController::class, 'terimaPesanan'])->name('pesanan.terima');
+Route::get('/pesanan/{id}/print', [\App\Http\Controllers\Landing\NotaPrintController::class, 'printNota'])->name('pesanan.print')->middleware('admin.restriction');
+Route::put('/pesanan/{id}/terima', [\App\Http\Controllers\Landing\NotaPrintController::class, 'terimaPesanan'])->name('pesanan.terima')->middleware('admin.restriction');
 
-Route::prefix("/landing")->group(function () {
-    Route::get("/", [LandingController::class, "index"])->name("landing.index");
+// Route login dan registrasi yang tidak memerlukan middleware customer.only
+Route::prefix("/landing")->middleware('admin.restriction')->group(function () {
     Route::get("login", [LandingAuth::class, "index"])->name("landing.login");
     Route::get("registrasi", [LandingAuth::class, "registrasi"])->name(
         "landing.registrasi",
@@ -89,8 +92,14 @@ Route::prefix("/landing")->group(function () {
     Route::post("registrasi", [LandingAuth::class, "setregistrasi"])->name(
         "landing.setregistrasi",
     );
+    Route::post("/authenticate", [LandingAuth::class, "authenticate"])->name(
+        "landing.authenticate",
+    );
+});
 
-
+// Route landing yang memerlukan middleware customer.only
+Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only'])->group(function () {
+    Route::get("/", [LandingController::class, "index"])->name("landing.index");
     Route::get("/logout", [LandingAuth::class, "logout"])->name(
         "landing.logout",
     );
@@ -123,10 +132,7 @@ Route::prefix("/landing")->group(function () {
         \App\Http\Controllers\Landing\ProfilLengkapPengguna::class,
     );
 
-    Route::post("/authenticate", [LandingAuth::class, "authenticate"])->name(
-        "landing.authenticate",
-    );
-
+    // Route pesanan dan shop
     Route::get("/pesanan_saya", [
         LandingController::class,
         "pesananSaya",
@@ -145,6 +151,8 @@ Route::prefix("/landing")->group(function () {
         \App\Http\Controllers\Landing\AllProductController::class,
         "index",
     ])->name("landing.products");
+    
+    // Route cart
     Route::get("/cart", [CartController::class, "index"])->name("landing.cart");
     Route::post("/cart/add", [CartController::class, "addToCart"])->name(
         "landing.cart.add",
@@ -158,6 +166,7 @@ Route::prefix("/landing")->group(function () {
         "updateQuantities",
     ])->name("landing.cart.updateQuantities");
 
+    // Route checkout
     Route::get("/checkout", [CheckoutController::class, "index"])->name(
         "landing.checkout",
     );
@@ -181,7 +190,7 @@ Route::prefix("/landing")->group(function () {
 });
 
 Route::get("/login", [AuthController::class, "index"])->name("login");
-Route::get("/logout", [AuthController::class, "logout"])->name("logout");
+Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 Route::post("/authenticate", [AuthController::class, "authenticate"])->name(
     "authenticate",
 );

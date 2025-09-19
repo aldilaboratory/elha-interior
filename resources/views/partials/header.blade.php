@@ -24,12 +24,20 @@
                         <span>|</span>
                         @if (Auth::check())
                         <li>
-                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-link p-0 text-danger text-decoration-none" style="color: black">
-                                <i class="ti-power-off" style="color:red"></i> Keluar
-                            </button>
-                            </form>
+                            @if (Auth::user()->group_id == 1)
+                                {{-- Admin logout --}}
+                                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-link p-0 text-danger text-decoration-none" style="color: black">
+                                    <i class="ti-power-off" style="color:red"></i> Keluar
+                                </button>
+                                </form>
+                            @else
+                                {{-- Customer logout --}}
+                                <a href="{{ route('landing.logout') }}" style="color: black">
+                                    <i class="ti-power-off" style="color:red"></i> Keluar
+                                </a>
+                            @endif
                         </li>
                         @else
                         {{-- <li><i class="ti-power-off"></i> <a href="{{ route('login') }}" style="color: black">Login</a></li> --}}

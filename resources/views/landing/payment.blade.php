@@ -4,7 +4,8 @@
     /* Background dengan gradient yang menarik */
     .payment-container {
         /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-        min-height: 100vh;
+        /* min-height: 100vh; */
+        margin: 50px 0;
         padding: 2rem 0;
         position: relative;
         overflow: hidden;

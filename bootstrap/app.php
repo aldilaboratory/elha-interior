@@ -14,6 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'admin.only' => \App\Http\Middleware\AdminOnly::class,
+        'customer.only' => \App\Http\Middleware\CustomerOnly::class,
+        'admin.restriction' => \App\Http\Middleware\AdminRestriction::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
