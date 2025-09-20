@@ -9,18 +9,18 @@
 <div class="breadcrumb justify-content-between">
     <div class="d-md-flex">
         <h1 class="mr-2">Transaksi</h1>
-        <ul>
+        {{-- <ul>
             <li>
                 <a href="#">Home</a>
             </li>
             <li>Transaksi</li>
-        </ul>
+        </ul> --}}
     </div>
-    <div>
+    {{-- <div>
         <button type="button" class="btn btn-danger" id="btn-delete-pending">
             <i class="fa fa-trash mr-1"></i> Hapus Transaksi Pending
         </button>
-    </div>
+    </div> --}}
 </div>
 <div class="separator-breadcrumb border-top"></div>
 <div class="card">
@@ -157,20 +157,19 @@
                 orderable: true,
                 visible: true,
                 render: function(data, type, row) {
-                    if (data.toLowerCase() === 'pending') {
-                        return `<span class="badge bg-warning text-dark">${data}</span>`;
-                    } else {
-                        let options = `
+                    let options = `
+                <option value="pending" ${data === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="dikonfirmasi" ${data === 'dikonfirmasi' ? 'selected' : ''}>Dikonfirmasi</option>
                 <option value="dikemas" ${data === 'dikemas' ? 'selected' : ''}>Dikemas</option>
                 <option value="dikirim" ${data === 'dikirim' ? 'selected' : ''}>Dikirim</option>
                 <option value="selesai" ${data === 'selesai' ? 'selected' : ''}>Selesai</option>
+                <option value="ditolak" ${data === 'ditolak' ? 'selected' : ''}>Ditolak</option>
             `;
-                        return `
-                <select class="form-select form-select-sm status-select" data-id="${row.id}">
+                    return `
+                <select class="form-select form-select-sm status-select" data-id="${row.transaksi_id}">
                     ${options}
                 </select>
             `;
-                    }
                 }
             }, {
                 data: 'resi',
@@ -258,34 +257,7 @@
             });
         },
     });
-    $('table').on('change', '.status-select', function() {
-        let id = $(this).data('id');
-        let statusBaru = $(this).val();
 
-        $.ajax({
-            url: baseUrl('/update-status'),
-            method: 'POST',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                id: id,
-                status: statusBaru
-            },
-            success: function(res) {
-                swal({
-                    type: 'success',
-                    title: 'Success',
-                    text: 'Status berhasil diperbarui',
-                });
-            },
-            error: function() {
-                swal({
-                    type: 'error',
-                    title: 'Error',
-                    text: 'Gagal memperbarui status',
-                });
-            }
-        });
-    });
 
     // Handler untuk tombol hapus transaksi pending
     $('#btn-delete-pending').on('click', function() {
@@ -335,6 +307,47 @@
                             text: errorMessage,
                         });
                     }
+                });
+            }
+        });
+    });
+
+    // Event handler untuk select option status (di luar DataTable)
+    $(document).on('change', '.status-select', function() {
+        let transaksiId = $(this).data('id');
+        let newStatus = $(this).val();
+        
+        $.ajax({
+            url: baseUrl('/update-status'),
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: transaksiId,
+                status: newStatus
+            },
+            success: function(response) {
+                if (response.success) {
+                    swal({
+                        type: 'success',
+                        title: 'Berhasil!',
+                        text: 'Status pesanan berhasil diperbarui',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    $('table').DataTable().ajax.reload();
+                } else {
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        text: 'Gagal memperbarui status pesanan',
+                    });
+                }
+            },
+            error: function(xhr) {
+                swal({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat memperbarui status',
                 });
             }
         });

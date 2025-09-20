@@ -25,7 +25,21 @@
                         <label class="form-label">Pilih Alamat Pengiriman</label>
                         <select id="profile_select" class="form-control">
                             <option value="">-- Input Manual --</option>
+                            @if($defaultAddress)
+                                <option value="{{ $defaultAddress->id }}"
+                                        data-nama="{{ $defaultAddress->name_penerima }}"
+                                        data-alamat="{{ $defaultAddress->alamat }}"
+                                        data-no-telp="{{ $defaultAddress->no_telp }}"
+                                        data-provinsi-id="{{ $defaultAddress->provinsi_id }}"
+                                        data-provinsi-nama="{{ $defaultAddress->provinsi_nama }}"
+                                        data-kota-id="{{ $defaultAddress->kota_id }}"
+                                        data-kota-nama="{{ $defaultAddress->kota_nama }}"
+                                        selected>
+                                    ⭐ {{ $defaultAddress->name_penerima }} - {{ $defaultAddress->alamat }} (Default)
+                                </option>
+                            @endif
                             @foreach($profiles as $profile)
+                                @if(!$profile->is_default)
                                 <option value="{{ $profile->id }}"
                                         data-nama="{{ $profile->name_penerima }}"
                                         data-alamat="{{ $profile->alamat }}"
@@ -36,6 +50,7 @@
                                         data-kota-nama="{{ $profile->kota_nama }}">
                                     {{ $profile->name_penerima }} - {{ $profile->alamat }}
                                 </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

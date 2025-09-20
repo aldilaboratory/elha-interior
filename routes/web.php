@@ -99,7 +99,9 @@ Route::prefix("/landing")->middleware('admin.restriction')->group(function () {
 
 // Route landing yang bisa diakses guest (tanpa login)
 Route::prefix("/landing")->middleware('admin.restriction')->group(function () {
-    Route::get("/", [LandingController::class, "index"])->name("landing.index");
+    Route::get("/", function () {
+        return redirect()->to(route("shop"));
+    })->name("landing.index");
     Route::get("/shop", [LandingController::class, "shop"])->name("shop");
     Route::get("/shop/detail/{id}", [
         LandingController::class,
@@ -118,20 +120,46 @@ Route::prefix("/landing")->middleware(['admin.restriction', 'customer.only', 'ro
     );
 
     // Profile pengguna routes
-    Route::get("/profile", [
+    Route::get("/profile-pengguna", [
         \App\Http\Controllers\Landing\ProfileController::class,
         "index",
     ])->name("landing.profile");
 
-    Route::put("/profile", [
+    Route::put("/profile-pengguna", [
         \App\Http\Controllers\Landing\ProfileController::class,
         "update",
     ])->name("landing.profile.update");
 
-    Route::post("/profile/change-password", [
+    Route::post("/profile-pengguna/change-password", [
         \App\Http\Controllers\Landing\ProfileController::class,
         "changePassword",
     ])->name("landing.profile.change-password");
+
+    // Routes untuk CRUD alamat
+    Route::post("/profile-pengguna/address", [
+        \App\Http\Controllers\Landing\ProfileController::class,
+        "storeAddress",
+    ])->name("landing.profile.address.store");
+
+    Route::put("/profile-pengguna/address/{id}", [
+        \App\Http\Controllers\Landing\ProfileController::class,
+        "updateAddress",
+    ])->name("landing.profile.address.update");
+
+    Route::delete("/profile-pengguna/address/{id}", [
+        \App\Http\Controllers\Landing\ProfileController::class,
+        "deleteAddress",
+    ])->name("landing.profile.address.delete");
+
+    Route::post("/profile-pengguna/address/{id}/set-default", [
+        \App\Http\Controllers\Landing\ProfileController::class,
+        "setDefaultAddress",
+    ])->name("landing.profile.address.set-default");
+
+    Route::get("/profile-pengguna/address/{id}", [
+        \App\Http\Controllers\Landing\ProfileController::class,
+        "getAddress",
+    ])->name("landing.profile.address.get");
 
     Route::get("/profile-pengguna", [
         \App\Http\Controllers\Landing\ProfilLengkapPengguna::class,
@@ -297,6 +325,15 @@ Route::prefix("/admin")
             TransaksiController::class,
             "deletePendingTransactions",
         ])->name("transaksi.delete-pending");
+        Route::post("transaksi/{id}/terima", [
+            TransaksiController::class,
+            "terimaPesanan",
+        ])->name("transaksi.terima");
+        Route::post("transaksi/{id}/tolak", [
+            TransaksiController::class,
+            "tolakPesanan",
+        ])->name("transaksi.tolak");
+
 
         // TransaksiDetail
         Route::resource("transaksi_detail", TransaksiDetailController::class);

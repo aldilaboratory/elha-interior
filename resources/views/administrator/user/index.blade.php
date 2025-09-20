@@ -16,7 +16,7 @@
         </ul>
     </div>
     <div>
-        <a href="{{ route('user.create') }}" class="btn btn-success">
+        <a href="{{ route('user.create') }}" class="btn btn-primary">
             <i class="fa fa-plus mr-1"></i> Tambah
         </a>
     </div>
@@ -29,7 +29,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">Nomor HP</th>
                     <th scope="col">Email</th>
                     <th scope="col">Group</th>
                     <th scope="col">Alamat</th>
@@ -135,7 +135,7 @@
                 visible: true,
             },
             {
-                data: 'username',
+                data: 'phone',
                 searchable: true,
                 orderable: true,
                 visible: true,

@@ -118,7 +118,7 @@ class ProfileController extends Controller
                 ]);
             }
 
-            return redirect()->route('landing.profile')
+            return redirect()->route('landing.profile-pengguna')
                 ->with('success', 'Profile berhasil diperbarui!');
 
         } catch (\Exception $e) {
@@ -195,5 +195,236 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * Store a new address
+     */
+    public function storeAddress(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.'
+            ], 401);
+        }
 
+        try {
+            $validated = $request->validate([
+                'name_penerima' => ['required', 'string', 'max:255'],
+                'alamat' => ['required', 'string', 'max:1000'],
+                'no_telp' => ['required', 'string', 'max:20'],
+                'provinsi_id' => ['required', 'integer'],
+                'provinsi_nama' => ['required', 'string', 'max:255'],
+                'kota_id' => ['required', 'integer'],
+                'kota_nama' => ['required', 'string', 'max:255'],
+            ], [
+                'name_penerima.required' => 'Nama penerima wajib diisi.',
+                'alamat.required' => 'Alamat wajib diisi.',
+                'no_telp.required' => 'No. telepon wajib diisi.',
+                'provinsi_id.required' => 'Provinsi wajib dipilih.',
+                'kota_id.required' => 'Kota wajib dipilih.',
+            ]);
+
+            $validated['user_id'] = Auth::id();
+            
+            // If this is the first address, make it default
+            $existingAddresses = ProfilLengkapPengguna::where('user_id', Auth::id())->count();
+            if ($existingAddresses == 0) {
+                $validated['is_default'] = true;
+            }
+
+            $address = ProfilLengkapPengguna::create($validated);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Alamat berhasil ditambahkan!',
+                'data' => $address
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menambah alamat.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Update an address
+     */
+    public function updateAddress(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.'
+            ], 401);
+        }
+
+        try {
+            $address = ProfilLengkapPengguna::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+            $validated = $request->validate([
+                'name_penerima' => ['required', 'string', 'max:255'],
+                'alamat' => ['required', 'string', 'max:1000'],
+                'no_telp' => ['required', 'string', 'max:20'],
+                'provinsi_id' => ['required', 'integer'],
+                'provinsi_nama' => ['required', 'string', 'max:255'],
+                'kota_id' => ['required', 'integer'],
+                'kota_nama' => ['required', 'string', 'max:255'],
+            ]);
+
+            $address->update($validated);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Alamat berhasil diperbarui!',
+                'data' => $address
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alamat tidak ditemukan.'
+            ], 404);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat memperbarui alamat.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete an address
+     */
+    public function deleteAddress($id)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.'
+            ], 401);
+        }
+
+        try {
+            $address = ProfilLengkapPengguna::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+            // Check if this is the default address
+            $isDefault = $address->is_default;
+            
+            $address->delete();
+
+            // If deleted address was default, set another address as default
+            if ($isDefault) {
+                $newDefault = ProfilLengkapPengguna::where('user_id', Auth::id())->first();
+                if ($newDefault) {
+                    $newDefault->setAsDefault();
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Alamat berhasil dihapus!'
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alamat tidak ditemukan.'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghapus alamat.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Set address as default
+     */
+    public function setDefaultAddress($id)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.'
+            ], 401);
+        }
+
+        try {
+            $address = ProfilLengkapPengguna::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+            $address->setAsDefault();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Alamat berhasil dijadikan alamat default!'
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alamat tidak ditemukan.'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengatur alamat default.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Get address details
+     */
+    public function getAddress($id)
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.'
+            ], 401);
+        }
+
+        try {
+            $address = ProfilLengkapPengguna::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+            return response()->json([
+                'success' => true,
+                'data' => $address
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alamat tidak ditemukan.'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data alamat.'
+            ], 500);
+        }
+    }
 }

@@ -7,11 +7,11 @@
 @section('content')
 <div class="breadcrumb">
     <h1 class="mr-2">Produk Baru Promosi</h1>
-    <ul>
+    {{-- <ul>
         <li>
             <a href="#">Home</a>
         </li>
-    </ul>
+    </ul> --}}
 </div>
 <div class="separator-breadcrumb border-top"></div>
 @if(session('message'))

@@ -8,15 +8,15 @@
     <div class="breadcrumb justify-content-between">
         <div class="d-md-flex">
             <h1 class="mr-2">Kategori</h1>
-            <ul>
+            {{-- <ul>
                 <li>
                     <a href="#">Home</a>
                 </li>
                 <li>Kategori</li>
-            </ul>
+            </ul> --}}
         </div>
         <div>
-            <a href="{{ route('kategori.create') }}" class="btn btn-success">
+            <a href="{{ route('kategori.create') }}" class="btn btn-primary">
                 <i class="fa fa-plus mr-1"></i> Tambah
             </a>
         </div>

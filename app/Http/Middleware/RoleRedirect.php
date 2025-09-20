@@ -26,7 +26,7 @@ class RoleRedirect
             
             // Redirect customer to landing if they try to access admin pages
             if ($user->isCustomer() && $request->is('admin/*')) {
-                return redirect()->route('landing.index');
+                return redirect()->route('shop');
             }
         }
         

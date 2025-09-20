@@ -32,9 +32,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" name="username" required value="{{ old('username') }}" placeholder="Masukkan username">
-                            @error('username')
+                            <label for="phone" class="form-label">Nomor Telepon</label>
+                            <input type="tel" class="form-control" name="phone" required value="{{ old('phone') }}" placeholder="Masukkan nomor telepon">
+                            @error('phone')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

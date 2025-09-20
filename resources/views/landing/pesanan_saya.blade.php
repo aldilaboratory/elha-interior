@@ -310,7 +310,7 @@
          <div class="row mt-5">
              <div class="col-12">
                  <div class="text-center mb-4">
-                     <h2 class="fw-bold text-primary">
+                     <h2 class="fw-bold" style="color: orange">
                          <i class="fas fa-star me-2"></i>Produk Rekomendasi
                      </h2>
                      <p class="text-muted">Produk dengan kategori yang sama dengan pesanan Anda</p>
@@ -337,14 +337,14 @@
                                  <p class="card-text text-muted small flex-grow-1">{{ Str::limit($product->deskripsi, 80) }}</p>
                                  <div class="mt-auto">
                                      <div class="d-flex justify-content-between align-items-center mb-2">
-                                         <span class="h5 fw-bold text-primary mb-0">Rp {{ number_format($product->harga, 0, ',', '.') }}</span>
+                                         <span class="h5 fw-bold text-dark mb-0">Rp {{ number_format($product->harga, 0, ',', '.') }}</span>
                                          <small class="text-muted">Stok: {{ $product->stok }}</small>
                                      </div>
                                      <form action="{{ route('landing.cart.add') }}" method="POST" class="add-to-cart-form">
                                          @csrf
                                          <input type="hidden" name="produk_id" value="{{ $product->id }}">
                                          <input type="hidden" name="jumlah" value="1">
-                                         <button type="submit" class="btn btn-outline-primary btn-modern w-100">
+                                         <button type="submit" class="btn w-100 my-2" style="background-color: orange; color: white;">
                                              <i class="fas fa-cart-plus me-2"></i>Tambah ke Keranjang
                                          </button>
                                      </form>

@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="col-md-6 text-end">
-                <button type="submit" class="btn btn-success btn-lg">Lanjut ke Checkout</button>
+                <button type="submit" class="btn btn-primary btn-lg">Lanjut ke Checkout</button>
             </div>
         </div>
         @endif

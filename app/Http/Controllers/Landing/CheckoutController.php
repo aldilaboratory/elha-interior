@@ -66,9 +66,10 @@ class CheckoutController extends Controller
         });
 
         $profiles = \App\Models\ProfilLengkapPengguna::where('user_id', Auth::id())->get();
+        $defaultAddress = \App\Models\ProfilLengkapPengguna::getDefaultForUser(Auth::id());
 
         // 4. Kirim data ke view
-        return view('landing.checkout', compact('cartItems', 'total', 'profiles'));
+        return view('landing.checkout', compact('cartItems', 'total', 'profiles', 'defaultAddress'));
     }
     public function process(Request $request)
     {

@@ -15,11 +15,8 @@ class AuthController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
-            return redirect()->to(route('shop'));
-        }
-
-        return view('landing.login');
+        // Redirect landing/login ke /login
+        return redirect()->to(route('login'));
     }
 
     public function authenticate(Request $request)
@@ -43,7 +40,8 @@ class AuthController extends Controller
 
         if (!$isAuth) {
             return redirect(route('landing.login'))
-                ->withErrors(['auth_failed' => true]);
+                ->withErrors(['auth_failed' => true])
+                ->withInput();
         }
 
         return redirect()->to(route('shop'));
@@ -54,7 +52,7 @@ class AuthController extends Controller
         Auth::logout();
         Session::flush();
 
-        return redirect()->to(route('landing.login'));
+        return redirect()->to(route('login'));
     }
 
     public function registrasi()
@@ -70,7 +68,7 @@ class AuthController extends Controller
             // validasi input
             $validated = $request->validate([
                 'name'     => 'required|string|max:100',
-                'username' => 'required|string|max:50|unique:user,username',
+                'phone'    => 'required|string|max:20|unique:user,phone',
                 'email'    => 'required|email|unique:user,email',
                 'password' => 'required|min:6',
                 'alamat'   => 'required|string|max:255',
@@ -79,7 +77,7 @@ class AuthController extends Controller
             // simpan user baru
             $user = User::create([
                 'name'     => $validated['name'],
-                'username' => $validated['username'],
+                'phone'    => $validated['phone'],
                 'email'    => $validated['email'],
                 'password' => Hash::make($validated['password']),
                 'alamat'   => $validated['alamat'],

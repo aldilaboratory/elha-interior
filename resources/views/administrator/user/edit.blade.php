@@ -33,10 +33,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="username" class="form-label">Username</label>
-                        <input class="form-control" type="text" name="username" id="username"
-                            value="{{ old('username') ? old('username') : $user->username }}">
-                        @error('username')
+                        <label for="phone" class="form-label">Nomor HP</label>
+                        <input class="form-control" type="text" name="phone" id="phone"
+                            value="{{ old('phone') ? old('phone') : $user->phone }}">
+                        @error('phone')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -45,13 +45,13 @@
                     <div class="form-group">
                         <label for="email" class="form-label">Email</label>
                         <input class="form-control" type="text" name="email" id="email"
-                            value="{{ old('email') ? old('email') : $user->email }}">
+                            value="{{ old('email') ? old('email') : $user->email }}" readonly>
                         @error('email')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label for="password" class="form-label">Password</label>
                         <input class="form-control" type="text" name="password" id="password"
@@ -60,24 +60,8 @@
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                </div>
-                <div class="col-md-12 col-lg-12">
-                    <div class="form-group">
-                        <label for="group_id" class="form-label">Group</label>
-                        <select class="form-control" name="group_id" id="group_id">
-                            <option value="">-- Pilih Group --</option>
-                            @foreach($groups as $group)
-                            <option value="{{ $group->id }}"
-                                {{ old('group_id')||$user->group_id == $group->id ? 'selected' : '' }}>
-                                {{ $group->nama }}
-                            </option>
-                            @endforeach
-                        </select>
-                        @error('group_id')
-                        <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
+                </div> --}}
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="alamat" class="form-label">Alamat</label>

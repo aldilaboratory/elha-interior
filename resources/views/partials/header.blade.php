@@ -20,7 +20,7 @@
                     <ul class="list-unstyled d-flex align-items-center justify-content-end gap-3 mb-0">
                         <li><a href="https://maps.app.goo.gl/T6VH6xM3qneNVyR27" style="color: black"><i class="lni lni-map" style="color: orange;"></i> Lokasi toko</a></li>
                         <span>|</span>
-                        <li><i class="ti-user"></i> <a href="{{ route('landing.profile') }}" style="color: black"><i class="lni lni-user" style="color: orange"></i> Akun saya</a></li>
+                        <li><a href="{{ route('landing.profile-pengguna') }}" style="color: black"><i class="lni lni-user" style="color: orange"></i> Akun saya</a></li>
                         <span>|</span>
                         @if (Auth::check())
                         <li>

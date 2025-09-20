@@ -180,6 +180,7 @@ class TransaksiController extends Controller
             ]);
         }
     }
+    
     public function updateStatus(Request $request)
     {
         DB::table('transaksi')
@@ -217,5 +218,27 @@ class TransaksiController extends Controller
                 'message' => 'Terjadi kesalahan saat menghapus transaksi pending: ' . $th->getMessage()
             ]);
         }
+    }
+
+    public function terimaPesanan($id)
+    {
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->update(['status' => 'dikonfirmasi']);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Pesanan berhasil diterima'
+        ]);
+    }
+
+    public function tolakPesanan($id)
+    {
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->update(['status' => 'ditolak']);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Pesanan berhasil ditolak'
+        ]);
     }
 }

@@ -6,7 +6,7 @@
             <div class="col-12">
                 <!-- Form Data Diri User -->
                 <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header text-white">
                         <h5 class="card-title mb-0">
                             Data Diri Pelanggan
                         </h5>
@@ -67,7 +67,12 @@
                                     <div class="card border shadow-sm h-100" id="card-{{ $profile->id }}">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-start mb-3">
-                                                <h6 class="card-title text-primary mb-0">Alamat #{{ $index + 1 }}</h6>
+                                                <div>
+                                                    <h6 class="card-title text-primary mb-0">Alamat #{{ $index + 1 }}</h6>
+                                                    @if($profile->is_default)
+                                                        <span class="badge bg-success">Alamat Default</span>
+                                                    @endif
+                                                </div>
                                                 <div class="dropdown">
                                                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                         <i class="lni lni-cog"></i>
@@ -79,6 +84,11 @@
                                                         <li><a class="dropdown-item" href="#" onclick="editProfile({{ $profile->id }})">
                                                             <i class="lni lni-pencil"></i> Edit
                                                         </a></li>
+                                                        @if(!$profile->is_default)
+                                                        <li><a class="dropdown-item text-success" href="#" onclick="setDefaultAddress({{ $profile->id }})">
+                                                            <i class="lni lni-checkmark"></i> Jadikan Default
+                                                        </a></li>
+                                                        @endif
                                                         <li><hr class="dropdown-divider"></li>
                                                         <li><a class="dropdown-item text-danger" href="#" onclick="deleteProfile({{ $profile->id }})">
                                                             <i class="lni lni-trash-can"></i> Hapus
@@ -110,17 +120,26 @@
                                             </div>
                                         </div>
                                         <div class="card-footer bg-light">
-                                             <div class="d-flex gap-2">
+                                             <div class="d-flex gap-2 mb-2">
                                                  <button type="button" class="btn btn-sm btn-primary flex-fill" onclick="showProfile({{ $profile->id }})">
                                                      <i class="lni lni-eye"></i> Lihat
                                                  </button>
                                                  <button type="button" class="btn btn-sm btn-primary flex-fill" onclick="editProfile({{ $profile->id }})">
                                                      <i class="lni lni-pencil"></i> Edit
                                                  </button>
-                                                 <button type="button" class="btn btn-sm btn-primary flex-fill" onclick="deleteProfile({{ $profile->id }})">
+                                                 <button type="button" class="btn btn-sm btn-danger flex-fill" onclick="deleteProfile({{ $profile->id }})">
                                                      <i class="lni lni-trash-can"></i> Hapus
                                                  </button>
                                              </div>
+                                             @if(!$profile->is_default)
+                                             <button type="button" class="btn btn-sm btn-success w-100" onclick="setDefaultAddress({{ $profile->id }})">
+                                                 <i class="lni lni-checkmark"></i> Jadikan Alamat Default
+                                             </button>
+                                             @else
+                                             <div class="text-center">
+                                                 <span class="badge bg-success">Alamat Default Aktif</span>
+                                             </div>
+                                             @endif
                                          </div>
                                     </div>
                                 </div>
@@ -497,7 +516,7 @@
             formData.append('kota_nama', document.getElementById('add_kota').options[document.getElementById('add_kota').selectedIndex].text);
             formData.append('_token', getCsrfToken());
 
-            fetch('/landing/alamat', {
+            fetch('/landing/profile-pengguna/address', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -523,7 +542,7 @@
         }
 
         function showProfile(id) {
-            fetch(`/landing/alamat/${id}`, {
+            fetch(`/landing/profile-pengguna/address/${id}`, {
                 method: 'GET',
                 headers: {
                     'X-CSRF-TOKEN': getCsrfToken(),
@@ -598,7 +617,7 @@
             formData.append('_method', 'PUT');
             formData.append('_token', getCsrfToken());
 
-            fetch(`/landing/alamat/${id}`, {
+            fetch(`/landing/profile-pengguna/address/${id}`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -639,7 +658,7 @@
                     formData.append('_method', 'DELETE');
                     formData.append('_token', getCsrfToken());
 
-                    fetch(`/landing/alamat/${id}`, {
+                    fetch(`/landing/profile-pengguna/address/${id}`, {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -650,8 +669,7 @@
                     .then(response => {
                         if (response.success) {
                             Swal.fire('Terhapus!', response.message, 'success').then(() => {
-                                const rowElement = document.getElementById(`row-${id}`);
-                                if (rowElement) rowElement.remove();
+                                location.reload();
                             });
                         } else {
                             Swal.fire('Error!', response.message, 'error');
@@ -660,6 +678,46 @@
                     .catch(error => {
                         console.error('Error:', error);
                         Swal.fire('Error!', 'Terjadi kesalahan saat menghapus data', 'error');
+                    });
+                }
+            });
+        }
+
+        function setDefaultAddress(id) {
+            Swal.fire({
+                title: 'Jadikan Alamat Default?',
+                text: "Alamat ini akan menjadi alamat default untuk pengiriman",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Jadikan Default!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData();
+                    formData.append('_token', getCsrfToken());
+
+                    fetch(`/landing/profile-pengguna/address/${id}/set-default`, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': getCsrfToken()
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.success) {
+                            Swal.fire('Berhasil!', response.message, 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Error!', response.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('Error!', 'Terjadi kesalahan saat mengatur alamat default', 'error');
                     });
                 }
             });

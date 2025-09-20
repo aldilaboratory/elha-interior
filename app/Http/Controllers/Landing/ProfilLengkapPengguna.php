@@ -13,7 +13,8 @@ class ProfilLengkapPengguna extends Controller
     public function index()
     {
         $profiles = ModelProfileLengkapPengguna::where("user_id", Auth::id())->get();
-        return view("landing.profile-pengguna", compact("profiles"));
+        $defaultAddress = ModelProfileLengkapPengguna::getDefaultForUser(Auth::id());
+        return view("landing.profile-pengguna", compact("profiles", "defaultAddress"));
     }
 
     public function store(Request $request)

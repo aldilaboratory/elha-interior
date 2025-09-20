@@ -34,11 +34,9 @@ class UserController extends Controller
         if (!$user) {
             return abort(404);
         }
-        $groups = Group::all();
 
         return view("administrator.user.edit", [
-            "user" => $user,
-            "groups" => $groups
+            "user" => $user
         ]);
     }
 
@@ -98,7 +96,7 @@ class UserController extends Controller
                     $search = $request->search['value'];
                     $query->where(function($q) use ($search) {
                         $q->where('user.name', 'like', "%{$search}%")
-                          ->orWhere('user.username', 'like', "%{$search}%")
+                          ->orWhere('user.phone', 'like', "%{$search}%")
                           ->orWhere('user.email', 'like', "%{$search}%")
                           ->orWhere('group.nama', 'like', "%{$search}%")
                           ->orWhere('user.alamat', 'like', "%{$search}%");
@@ -117,10 +115,9 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             "name" => "required",
-            "username" => "required|unique:user,username," . $id,
+            "phone" => "required",
             "email" => "required|email|unique:user,email," . $id,
             "password" => "nullable|min:6",
-            "group_id" => "required|exists:group,id",
             "alamat" => "required",
         ]);
 
@@ -132,9 +129,8 @@ class UserController extends Controller
 
         $dataSave = [
             "name" => $request->input("name"),
-            "username" => $request->input("username"),
+            "phone" => $request->input("phone"),
             "email" => $request->input("email"),
-            "group_id" => $request->input("group_id"),
             "alamat" => $request->input("alamat"),
         ];
 

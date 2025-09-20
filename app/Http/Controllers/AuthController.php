@@ -17,7 +17,7 @@ class AuthController extends Controller
             if ($user->isAdmin()) {
                 return redirect()->route('admin.dashboard');
             } else {
-                return redirect()->route('landing.index');
+                return redirect()->route('shop');
             }
         }
 
@@ -45,7 +45,8 @@ class AuthController extends Controller
 
         if (!$isAuth) {
             return redirect(route('login'))
-                ->withErrors(['auth_failed' => 'Email atau password salah']);
+                ->withErrors(['auth_failed' => 'Email atau password salah'])
+                ->withInput();
         }
 
         $user = Auth::user();
@@ -54,7 +55,7 @@ class AuthController extends Controller
         if ($user->isAdmin()) {
             return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->route('landing.index');
+            return redirect()->route('shop');
         }
     }
 

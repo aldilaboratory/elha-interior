@@ -34,7 +34,7 @@
             </li>
         </ul>
 
-        <ul class="childNav" data-parent="laporan">
+        {{-- <ul class="childNav" data-parent="laporan">
             <li class="nav-item">
                 <a class="{{ request()->routeIs('laporan-penjualan.*') ? 'active' : '' }}" href="{{ route('laporan-penjualan.index') }}">
                     <i class="nav-icon fas fa-chart-line"></i>
@@ -47,7 +47,7 @@
                     <span class="item-name">Laporan Stok Barang</span>
                 </a>
             </li>
-        </ul>
+        </ul> --}}
 
         <ul class="childNav" data-parent="transaksi">
             <li class="nav-item">
@@ -80,12 +80,12 @@
                     <span class="item-name">User</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="{{ request()->routeIs('group.*') ? 'active' : '' }}" href="{{ route('group.index') }}">
                     <i class="nav-icon fa fa-users"></i>
                     <span class="item-name">Group</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
     </div>

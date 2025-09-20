@@ -32,6 +32,7 @@
 </head>
 <body>
 <div class="container">
+    <img src="{{ asset('assets_landing/images/logo/logo-dark.png') }}" alt="Logo" style="width: 150px; margin-top: 25px">
     <h2 class="text-center">Nota Pesanan</h2>
     <hr>
     <div>
