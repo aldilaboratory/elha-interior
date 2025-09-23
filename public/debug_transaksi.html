@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Transaksi DataTables</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        #results { margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px; }
+        table { width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Transaksi DataTables</h1>
+    
+    <div id="status" class="status info">Ready to test...</div>
+    
+    <button onclick="getCsrfToken()">1. Get CSRF Token</button>
+    <button onclick="testLogin()">2. Test Login</button>
+    <button onclick="testDataTables()">3. Test DataTables</button>
+    <button onclick="testManualFetch()">4. Test Manual Fetch</button>
+    
+    <div id="results"></div>
+    
+    <table id="transaksiTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ID Transaksi</th>
+                <th>Nama Penerima</th>
+                <th>Produk</th>
+                <th>Status</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        let csrfToken = '';
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+            console.log(message);
+        }
+        
+        function updateResults(data) {
+            document.getElementById('results').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        }
+        
+        function getCsrfToken() {
+            updateStatus('Getting CSRF token...', 'info');
+            
+            $.get('/login', function(data) {
+                const tokenMatch = data.match(/name="csrf-token" content="([^"]+)"/);
+                if (tokenMatch) {
+                    csrfToken = tokenMatch[1];
+                    updateStatus('CSRF token obtained: ' + csrfToken.substring(0, 10) + '...', 'success');
+                } else {
+                    updateStatus('Failed to get CSRF token', 'error');
+                }
+            }).fail(function(xhr) {
+                updateStatus('Error getting CSRF token: ' + xhr.status, 'error');
+            });
+        }
+        
+        function testLogin() {
+            if (!csrfToken) {
+                updateStatus('Please get CSRF token first!', 'error');
+                return;
+            }
+            
+            updateStatus('Testing login...', 'info');
+            
+            $.ajax({
+                url: '/authenticate',
+                method: 'POST',
+                data: {
+                    _token: csrfToken,
+                    email: 'admin@gmail.com',
+                    password: 'password'
+                },
+                success: function(response) {
+                    updateStatus('Login successful!', 'success');
+                    updateResults(response);
+                },
+                error: function(xhr) {
+                    if (xhr.status === 302) {
+                        updateStatus('Login successful (redirected)!', 'success');
+                    } else {
+                        updateStatus('Login failed: ' + xhr.status + ' ' + xhr.statusText, 'error');
+                        updateResults(xhr.responseText);
+                    }
+                }
+            });
+        }
+        
+        function testManualFetch() {
+            if (!csrfToken) {
+                updateStatus('Please get CSRF token first!', 'error');
+                return;
+            }
+            
+            updateStatus('Testing manual fetch...', 'info');
+            
+            $.ajax({
+                url: '/admin/transaksi/fetch',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                data: {
+                    _token: csrfToken,
+                    draw: 1,
+                    start: 0,
+                    length: 10
+                },
+                success: function(response) {
+                    updateStatus('Manual fetch successful!', 'success');
+                    updateResults(response);
+                },
+                error: function(xhr) {
+                    updateStatus('Manual fetch failed: ' + xhr.status + ' ' + xhr.statusText, 'error');
+                    updateResults({
+                        status: xhr.status,
+                        statusText: xhr.statusText,
+                        responseText: xhr.responseText.substring(0, 500)
+                    });
+                }
+            });
+        }
+        
+        function testDataTables() {
+            if (!csrfToken) {
+                updateStatus('Please get CSRF token first!', 'error');
+                return;
+            }
+            
+            updateStatus('Testing DataTables...', 'info');
+            
+            // Destroy existing DataTable if exists
+            if ($.fn.DataTable.isDataTable('#transaksiTable')) {
+                $('#transaksiTable').DataTable().destroy();
+            }
+            
+            $('#transaksiTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/transaksi/fetch',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    data: function(d) {
+                        d._token = csrfToken;
+                        return d;
+                    },
+                    type: "POST",
+                    error: function(xhr, error, thrown) {
+                        console.log('DataTables AJAX Error:', xhr.responseText);
+                        console.log('Status:', xhr.status);
+                        console.log('Error:', error);
+                        console.log('Thrown:', thrown);
+                        
+                        updateStatus('DataTables error: ' + xhr.status + ' - ' + error, 'error');
+                        updateResults({
+                            status: xhr.status,
+                            error: error,
+                            thrown: thrown,
+                            responseText: xhr.responseText.substring(0, 500)
+                        });
+                    }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'transaksi_id', name: 'transaksi_id' },
+                    { data: 'nama_penerima', name: 'nama_penerima' },
+                    { data: 'nama_produk', name: 'nama_produk' },
+                    { data: 'status', name: 'status' },
+                    { data: 'total', name: 'total' }
+                ]
+            });
+            
+            updateStatus('DataTables initialized', 'success');
+        }
+    </script>
+</body>
+</html>

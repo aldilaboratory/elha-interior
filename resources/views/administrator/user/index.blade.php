@@ -8,18 +8,18 @@
 <div class="breadcrumb justify-content-between">
     <div class="d-md-flex">
         <h1 class="mr-2">User</h1>
-        <ul>
+        {{-- <ul>
             <li>
                 <a href="#">Home</a>
             </li>
             <li>User</li>
-        </ul>
+        </ul> --}}
     </div>
-    <div>
+    {{-- <div>
         <a href="{{ route('user.create') }}" class="btn btn-primary">
             <i class="fa fa-plus mr-1"></i> Tambah
         </a>
-    </div>
+    </div> --}}
 </div>
 <div class="separator-breadcrumb border-top"></div>
 <div class="card">
@@ -31,7 +31,6 @@
                     <th scope="col">Name</th>
                     <th scope="col">Nomor HP</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Group</th>
                     <th scope="col">Alamat</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Aksi</th>
@@ -142,12 +141,6 @@
             },
             {
                 data: 'email',
-                searchable: true,
-                orderable: true,
-                visible: true,
-            },
-            {
-                data: 'group_name',
                 searchable: true,
                 orderable: true,
                 visible: true,

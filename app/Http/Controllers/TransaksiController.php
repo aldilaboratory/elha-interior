@@ -241,4 +241,23 @@ class TransaksiController extends Controller
             'message' => 'Pesanan berhasil ditolak'
         ]);
     }
+
+    public function printNota($id)
+    {
+        $order = DB::table('transaksi')
+            ->join('user', 'user.id', '=', 'transaksi.user_id')
+            ->select('transaksi.*', 'user.name as customer_name')
+            ->where('transaksi.id', $id)
+            ->first();
+
+        if (!$order) {
+            abort(404);
+        }
+
+        $orderItems = DB::table('transaksi_detail')
+            ->where('transaksi_id', $id)
+            ->get();
+
+        return view('administrator.transaksi.nota_print', compact('order', 'orderItems'));
+    }
 }

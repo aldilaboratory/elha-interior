@@ -80,6 +80,12 @@
                     <span class="item-name">User</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="{{ request()->routeIs('admin.*') ? 'active' : '' }}" href="{{ route('admin.index') }}">
+                    <i class="nav-icon fa fa-user-shield"></i>
+                    <span class="item-name">Admin</span>
+                </a>
+            </li>
             {{-- <li class="nav-item">
                 <a class="{{ request()->routeIs('group.*') ? 'active' : '' }}" href="{{ route('group.index') }}">
                     <i class="nav-icon fa fa-users"></i>

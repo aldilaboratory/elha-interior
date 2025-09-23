@@ -63,6 +63,28 @@ Route::get("/", function () {
     return redirect()->to(route("shop"));
 })->middleware('admin.restriction');
 
+// Test route untuk debugging
+Route::get("/test", function () {
+    return response()->json(['status' => 'success', 'message' => 'Server berfungsi']);
+});
+
+Route::get('/test-csrf', function () {
+    return view('test_csrf_proper');
+});
+
+// Test route untuk controller transaksi
+Route::get("/test-transaksi-fetch", function() {
+    try {
+        $controller = new TransaksiController();
+        $request = new \Illuminate\Http\Request();
+        $request->merge(['draw' => 1, 'start' => 0, 'length' => 10]);
+        $response = $controller->fetch($request);
+        return $response;
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+    }
+});
+
 Route::middleware('admin.restriction')->group(function () {
     Route::get("/rajaongkir/provinsi", [
         KomerceOngkirController::class,
@@ -250,6 +272,15 @@ Route::prefix("/admin")
         Route::resource("user", UserController::class);
         Route::post("user/fetch", [UserController::class, "fetch"]);
 
+        // Admin
+        Route::get("admin", [UserController::class, "adminIndex"])->name("admin.index");
+        Route::post("admin/fetch", [UserController::class, "adminFetch"])->name("admin.fetch");
+        Route::get("admin/create", [UserController::class, "adminCreate"])->name("admin.create");
+        Route::post("admin", [UserController::class, "adminStore"])->name("admin.store");
+        Route::get("admin/{id}/edit", [UserController::class, "adminEdit"])->name("admin.edit");
+        Route::put("admin/{id}", [UserController::class, "adminUpdate"])->name("admin.update");
+        Route::delete("admin/{id}", [UserController::class, "adminDestroy"])->name("admin.destroy");
+
         // Group
         Route::resource("group", GroupController::class);
         Route::post("group/fetch", [GroupController::class, "fetch"]);
@@ -333,6 +364,10 @@ Route::prefix("/admin")
             TransaksiController::class,
             "tolakPesanan",
         ])->name("transaksi.tolak");
+        Route::get("transaksi/{id}/print", [
+            TransaksiController::class,
+            "printNota",
+        ])->name("transaksi.print");
 
 
         // TransaksiDetail

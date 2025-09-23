@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Endpoint</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Test Endpoint Fetch</h1>
+    <button id="testTransaksi">Test Transaksi Fetch</button>
+    <button id="testProduk">Test Produk Fetch</button>
+    <div id="result"></div>
+
+    <script>
+        function baseUrl(path) {
+            return 'http://127.0.0.1:8000' + path;
+        }
+
+        $('#testTransaksi').click(function() {
+            $.ajax({
+                url: baseUrl('/admin/transaksi/fetch'),
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    draw: 1,
+                    start: 0,
+                    length: 10
+                },
+                success: function(response) {
+                    $('#result').html('<h3>Transaksi Success:</h3><pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                },
+                error: function(xhr, status, error) {
+                    $('#result').html('<h3>Transaksi Error:</h3><p>Status: ' + status + '</p><p>Error: ' + error + '</p><p>Response: ' + xhr.responseText + '</p>');
+                }
+            });
+        });
+
+        $('#testProduk').click(function() {
+            $.ajax({
+                url: baseUrl('/admin/produk/fetch'),
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    draw: 1,
+                    start: 0,
+                    length: 10
+                },
+                success: function(response) {
+                    $('#result').html('<h3>Produk Success:</h3><pre>' + JSON.stringify(response, null, 2) + '</pre>');
+                },
+                error: function(xhr, status, error) {
+                    $('#result').html('<h3>Produk Error:</h3><p>Status: ' + status + '</p><p>Error: ' + error + '</p><p>Response: ' + xhr.responseText + '</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -58,9 +58,9 @@
         serverSide: true,
         autoWidth: false,
         ajax: {
-            url: baseUrl('/produk/fetch'),
+            url: baseUrl('/admin/produk/fetch'),
             headers: {
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataSrc: "data",
             type: "POST"
